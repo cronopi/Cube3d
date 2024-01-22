@@ -6,12 +6,28 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/17 16:12:52 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/18 14:02:55 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
 
+void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
+{
+	int pixel_position;
+
+	pixel_position = ((coords.y * WIDTH) + coords.x) * 4;
+	int pixel_bits = 32;
+	int line_bytes = WIDTH;
+	int endian = 0;
+	char *buffer = mlx_get_data_addr(data->img, &pixel_bits, &line_bytes, &endian);
+
+	buffer[pixel_position + 3] = (color >> 24);
+	buffer[pixel_position + 2] = (color >> 16) & 0xFF;
+	buffer[pixel_position + 1] = (color >> 8) & 0xFF;
+	buffer[pixel_position + 0] = (color) & 0xFF;
+
+}
 
 void render_ray(t_data_global *data, t_ray ray, int color)
 {
@@ -39,7 +55,7 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 	{
 		while (coords.x < limit.x)
 		{
-			mlx_pixel_put(data->mlx, data->win, coords.x, coords.y, color);
+			pixel_to_img(data, coords, color);
 			coords.x++;
 		}
 		coords.x = index.x;
@@ -56,8 +72,6 @@ void render_character(t_data_global data)
 
 	tmp_ray.direction = data.character.direction;
 
-
-	//printf("%i %i origin %i %i direction", tmp_ray.origin.x, tmp_ray.origin.y, tmp_ray.direction.x, tmp_ray.direction.y);
 	render_ray(&data, tmp_ray, 0xff5900ff);
 
 	render_rectangle((&data), (t_vector2){((data.character.position.x * 32) + 8), ((data.character.position.y * 32) + 8)}, (t_vector2){16, 16}, 0xff5900ff);
@@ -90,9 +104,12 @@ void render_walls(t_data_global *data)
 
 int	render(t_data_global *data)
 {
-	//mlx_clear_window(data->mlx, data->win);
+	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+
 	render_walls(data);
 	render_character(*data);
-	//mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	mlx_destroy_image(data->mlx, data->img);
 	return (0);
 }

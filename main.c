@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/17 16:07:27 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/18 13:04:51 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int	main(int argc, char **argv)
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		return (0);
-
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Cube3D");
-	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
 	if (data.win == NULL)
 	{
 		//free_double_pointer(&init);
 		return (0);
 	}
+	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+
 	mlx_loop_hook(data.mlx, &render, &data);
 	mlx_hook(data.win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.win, 17, 1L << 17, close_window, &data);
