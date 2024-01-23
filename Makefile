@@ -1,8 +1,8 @@
 RM = rm -f
 
 CC = gcc
-FLAGS_MLX =-Lmlx -lmlx_Linux -Llibft -lft -lXext -lX11 -lm -lz #-g3 -fsanitize=address
-#FLAGS_MLX = -lmlx -framework OpenGL -framework AppKit
+#FLAGS_MLX =-Lmlx -lmlx_Linux -Llibft -lft -lXext -lX11 -lm -lz #-g3 -fsanitize=address
+FLAGS_MLX = -lmlx -framework OpenGL -framework AppKit
 FLAGS = -Wall -Wextra -Werror -g
 
 LIBFT= -L libft -lft
@@ -12,11 +12,11 @@ SRC = main.c render.c vector3.c keys.c check_extension.c open_map.c initialize_c
 
 OBJ = $(SRC:.c=.o)
 
-%.o: %.c
-	$(CC) $(FLAGS) $(FLAGS_MLX) -c -o $@ $<
-
 #%.o: %.c
-#	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+#	$(CC) $(FLAGS) $(FLAGS_MLX) -c -o $@ $<
+
+%.o: %.c
+	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
 
 all: $(NAME)
 

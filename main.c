@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/18 13:04:51 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:09:54 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	close_window(t_data_global *init)
 }
 void	leaks(void)
 {
-	system("leaks -q MiniRT");
+	system("leaks -q Cube3d");
 }
 
 int	main(int argc, char **argv)
@@ -36,14 +36,19 @@ int	main(int argc, char **argv)
 	(void)argv;
 	t_data_global	data;
 
-/* 	if (check_argc(argc) == 0)
+	if (check_argc(argc) == 0)
 		return (0);
-	if (check_extension(argv[1]) == 0)
-		return (0); */
+	if (check_extension(argv) == 0)
+		return (0);
 
-	data.map = open_and_return_map(argv[1]);
 	data.character = initialize_character(data.map);
-
+	
+	data.map = open_and_return_map(argv[1]);
+	if (check_map_validation(data) == 0)
+	{
+		printf("hay un error de validez en el mapa")
+		return (0);
+	}
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		return (0);

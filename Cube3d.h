@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/17 16:06:10 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/23 15:37:29 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # include <math.h>
 # include <stdlib.h>
 # include "libft/libft.h"
-# include "mlx/mlx.h"
+//# include "mlx/mlx.h"
 # include "Vector3.h"
-//# include <mlx.h>
+# include <mlx.h>
 
 # define WIDTH 920
 # define HEIGHT 540
@@ -53,6 +53,7 @@ typedef struct s_data_global
 	void			*mlx;
 	void			*win;
 	char			**map;
+	char			**dup_map;
 	t_character		character;
 }				t_data_global;
 
@@ -60,6 +61,7 @@ t_character initialize_character(char **map);
 int		render(t_data_global *data);
 int		keys(int key, t_data_global *init);
 int		close_window(t_data_global *init);
+int		check_argc(int argc);
 int		check_extension(char **argv);
 char	**open_and_return_map(char *file_name);
 
