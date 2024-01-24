@@ -8,7 +8,8 @@ FLAGS = -Wall -Wextra -Werror -g
 LIBFT= -L libft -lft
 
 NAME = Cube3d
-SRC = main.c render.c vector3.c keys.c check_extension.c open_map.c initialize_character.c
+SRC = main.c render.c vector3.c keys.c check_extension.c open_map.c initialize_character.c check_map_validation.c\
+duplicate_map.c floodfill.c
 
 OBJ = $(SRC:.c=.o)
 

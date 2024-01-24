@@ -6,19 +6,20 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 10:12:24 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/23 15:46:27 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:38:40 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_so_long.h"
+#include "Cube3d.h"
 
-void	free_leaks(t_data_global *init)
+void	free_leaks(t_data_global *data)
 {
-	ft_putstr_fd("Error\n", 1);
-	free_map(data.dup_map);
-	free_map(data.map);
-	//mlx_destroy_display(init->mlx);
-	free(data->mlx);
+	(void)data;
+	ft_putstr_fd("Error de algun tipo\n", 1);
+/* 	free_map(data.dup_map);
+	free_map(data.map); */
+	//mlx_destroy_display(data->mlx);
+	//free(data->mlx);
 	exit(1);
 }
 
@@ -28,37 +29,37 @@ void	check_walls_floodfill2(t_data_global *data)
 
 	coords.x = 0;
 	coords.y = 0;
-	while (data.dup_map[coords.y][coords.x] != '\0')
+	while (data->dup_map[coords.y][coords.x] != '\0')
 	{
-		if (data.dup_map[coords.y][coords.x] == 'v')
+		if (data->dup_map[coords.y][coords.x] == 'v')
 			free_leaks(data);
 		coords.x++;
 	}
 }
 
-void	check_walls_floodfill(t_data_global data)
+void	check_walls_floodfill(t_data_global *data)
 {
 	t_vector2	coords;
 
 	coords.x = 0;
 	coords.y = 0;
-	while (data.dup_map[coords.y] != NULL)
+	while (data->dup_map[coords.y] != NULL)
 	{
-		if (data.dup_map[coords.y][coords.x] == 'v')
+		if (data->dup_map[coords.y][coords.x] == 'v')
 			free_leaks(data);
 		coords.y++;
 	}
 	coords.y = coords.y - 1;
-	while (data.dup_map[coords.y][coords.x] != '\0')
+	while (data->dup_map[coords.y][coords.x] != '\0')
 	{
-		if (data.dup_map[coords.y][coords.x] == 'v')
+		if (data->dup_map[coords.y][coords.x] == 'v')
 			free_leaks(data);
 		coords.x++;
 	}
 	coords.x = coords.x - 1;
 	while (coords.y >= 0)
 	{
-		if (data.dup_map[coords.y][coords.x] == 'v')
+		if (data->dup_map[coords.y][coords.x] == 'v')
 			free_leaks(data);
 		coords.y--;
 	}

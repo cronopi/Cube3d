@@ -6,7 +6,7 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/23 15:37:29 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/24 12:37:34 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ int		keys(int key, t_data_global *init);
 int		close_window(t_data_global *init);
 int		check_argc(int argc);
 int		check_extension(char **argv);
+int		check_map_validation(t_data_global *data);
 char	**open_and_return_map(char *file_name);
+void	floodfill(char **duplicate, int x, int y);
+void	floodfill_duplicate(char **duplicate, int x, int y);
+char	**duplicate_map(t_data_global *data);
+void	check_walls_floodfill(t_data_global *data);
 
 # endif

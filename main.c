@@ -6,22 +6,22 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/23 15:09:54 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:42:57 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
 
-void	close_program(t_data_global *init)
+void	close_program(t_data_global *data)
 {
 	//free_double_pointer(init);
 	//mlx_destroy_display(init->mlx);// no se puede usar en macOS
-	free(init->mlx);
+	free(data->mlx);
 }
-int	close_window(t_data_global *init)
+int	close_window(t_data_global *data)
 {
-	mlx_destroy_window(init->mlx, init->win);
-	close_program(init);
+	mlx_destroy_window(data->mlx, data->win);
+	close_program(data);
 	exit(1);
 	return (0);
 }
@@ -29,7 +29,20 @@ void	leaks(void)
 {
 	system("leaks -q Cube3d");
 }
+void	print_map(char **map)
+{
+	int i;
+	int j;
 
+	i = 0;
+	j = 0;
+	while(map[i] != NULL)
+	{
+		printf("%s", map[i]);
+		i++;
+	}
+	printf("\nfin de impresion del mapa\n");
+}
 int	main(int argc, char **argv)
 {
 	(void)argc;
@@ -41,14 +54,23 @@ int	main(int argc, char **argv)
 	if (check_extension(argv) == 0)
 		return (0);
 
+	data.map = open_and_return_map(argv[1]);
+	print_map(data.map);
 	data.character = initialize_character(data.map);
 	
-	data.map = open_and_return_map(argv[1]);
-	if (check_map_validation(data) == 0)
+	if (check_map_validation(&data) == 0)
 	{
-		printf("hay un error de validez en el mapa")
+		printf("hay un error de validez en el mapa");
 		return (0);
 	}
+/* 	printf("\nel duplicado\n");
+	int i = 0;
+	while (data.dup_map[i] != NULL)
+	{
+		printf("%s", data.dup_map[i]);
+		i++;
+	}
+	printf("\nfin duplicado\n"); */
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		return (0);

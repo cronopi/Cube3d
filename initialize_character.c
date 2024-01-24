@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_character.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 13:30:10 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/17 15:21:30 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/24 11:09:53 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,12 @@ t_character character_start_and_direction(char **map)
 	return (new_character);
 }
 
-t_character initialize_character(char **map)
+t_character	initialize_character(char **map)
 {
 	t_character new_character;
 
 	new_character = character_start_and_direction(map);
-	printf("esto vale la posicion %i %i la direccion es %i %i\n", new_character.position.x, new_character.position.y, new_character.direction.x, new_character.direction.y);
-	//new_character.direction = (t_vector2){0,-1};
+	//printf("esto vale la posicion %i %i la direccion es %i %i\n", new_character.position.x, new_character.position.y,new_character.direction.x, new_character.direction.y);
 	new_character.camera_angle = 0;
 
 	return (new_character);

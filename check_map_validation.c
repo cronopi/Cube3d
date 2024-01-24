@@ -6,27 +6,50 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:01:20 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/23 15:41:11 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:25:11 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
 
-check_floors(t_data_global data)
+int	check_floors(t_data_global *data)
 {
-	t_character	new_character;
 	int			i;
 	
 	i = 0;
-	data.dup_map = duplicate_map(data);
-	floodfill(data.dup_map, data.character.position.x, data.character.pisition.y);
-	floodfill_duplicate(data.dup_map, data.character.position.x, data.character.position.y);
-	check_walls_floodfill(data);
-	while (dup_map[i] != NULL)
+	data->dup_map = duplicate_map(data);
+/* 	printf("\nel duplicado\n");
+	while (data.dup_map[i] != NULL)
 	{
-		//printf("%s\n", init->img.duplicate_map[i]);
+		printf("%s", data.dup_map[i]);
 		i++;
 	}
+	printf("\nfin duplicado\n"); */
+	floodfill(data->dup_map, data->character.position.x, data->character.position.y);
+/* 	printf("\nel floodfill\n");
+	while (data.dup_map[i] != NULL)
+	{
+		printf("%s", data.dup_map[i]);
+		i++;
+	}
+	printf("\ntermina floodfill\n"); */
+	floodfill_duplicate(data->dup_map, data->character.position.x, data->character.position.y);
+	printf("\nel floodfill duplicado\n");
+	while (data->dup_map[i] != NULL)
+	{
+		printf("%s", data->dup_map[i]);
+		i++;
+	}
+	printf("\ntermina el floodfill dplicaado\n");
+	check_walls_floodfill(data);
+/* 		printf("\ncheckear paredes\n");
+	while (data.dup_map[i] != NULL)
+	{
+		printf("%s", data.dup_map[i]);
+		i++;
+	}
+	printf("\ntermina checkear paredes\n"); */
+	return (1);
 }
 
 int	check_character(char **map)
@@ -52,11 +75,86 @@ int	check_character(char **map)
 	return(character);
 }
 
-check_map_validation(data)
+int	count_lines(t_data_global *data)
 {
-	if (check_character(data.map) != 1)
+	int	j;
+
+	j = 0;
+	while (data->map[j] != NULL)
+		j++;
+	return (j);
+}
+int	check_n_and_r2(t_data_global *data, int j, size_t check_numbers)
+{
+	unsigned int	numero;
+	int				i;
+
+	i = 0;
+	while (i < j)
+	{
+		numero = ft_strlen(data->map[i]);
+		if (data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
+		{
+			numero--;
+			if (data->map[i][ft_strlen(data->map[i]) - 2] == '\r')
+				numero--;
+		}
+		if (check_numbers == numero)
+			i++;
+		else
+			return (0);
+	}
+	return(1);
+}
+int	check_r_and_n(t_data_global *data)
+{
+	int		i;
+	int		j;
+	size_t	check_numbers;
+
+	i = 0;
+	j = count_lines(data);
+	check_numbers = ft_strlen(data->map[i]);
+	if (data->map[i][ft_strlen(data->map[i]) - 1] == '\n')
+	{
+		check_numbers--;
+		if (data->map[i][ft_strlen(data->map[i]) - 2] == '\r')
+			check_numbers--;
+	}
+	return (check_n_and_r2(data, j, check_numbers));
+}
+
+int	check_posible_characters(t_data_global *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while(data->map[i] != NULL)
+	{
+		while(data->map[i][j] != '\0')
+		{
+			if (data->map[i][j] != 'N' || data->map[i][j] != 'E' || data->map[i][j] != 'S' || data->map[i][j] != 'E' || data->map[i][j] != '0' || data->map[i][j] != '1')
+				return (0);
+			j++;
+		}
+		i++;
+		j = 0;
+	}
+	return(1);
+}
+
+
+int	check_map_validation(t_data_global *data)
+{
+	if(check_posible_characters(data) != 1)
 		return (0);
-	if (check_floors(data) /**/)
+	if (check_r_and_n(data) != 1)
+		return (0);
+	if (check_character(data->map) != 1)
+		return (0);
+	if (check_floors(data) != 1)
 		return (0);
 	return (1);
 }

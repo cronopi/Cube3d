@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/15 12:51:41 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/24 13:44:08 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	**open_and_return_map(char *file_name)
 
 	while(get_next_line(fd) != NULL)
 		index++;
-	printf("%d\n", index);
 	map = malloc(sizeof(char *) * (index + 1));
 	if (!map)
 		return (0);
@@ -40,10 +39,5 @@ char	**open_and_return_map(char *file_name)
 		i++;
 	}
 	i = 0;
-	while (i < 4)
-	{
-		printf("%s", map[i]);
-		i++;
-	}
 	return (map);
 }
