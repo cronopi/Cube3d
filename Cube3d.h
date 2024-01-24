@@ -6,7 +6,7 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/24 12:37:34 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:43:37 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include "Vector3.h"
 # include <mlx.h>
 
-# define WIDTH 920
-# define HEIGHT 540
+# define WIDTH 1920
+# define HEIGHT 1080
 
 typedef struct s_vector2
 {
