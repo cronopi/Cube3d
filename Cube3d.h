@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/24 15:43:37 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:02:26 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,13 @@
 # include <math.h>
 # include <stdlib.h>
 # include "libft/libft.h"
-//# include "mlx/mlx.h"
+# include "mlx/mlx.h"
 # include "Vector3.h"
-# include <mlx.h>
+//# include <mlx.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 920
+# define HEIGHT 540
+# define pi 3.14159264
 
 typedef struct s_vector2
 {
@@ -34,16 +35,22 @@ typedef struct s_vector2
 	int	y;
 }				t_vector2;
 
+typedef struct s_fvector2
+{
+	float	x;
+	float	y;
+}				t_fvector2;
+
 typedef struct s_ray
 {
-	t_vector2 origin;
-	t_vector2 direction;
+	t_fvector2 origin;
+	t_fvector2 direction;
 }				t_ray;
 
 typedef struct s_character
 {
-	t_vector2	position;
-	t_vector2	direction;
+	t_fvector2	position;
+	t_fvector2	direction;
 	float		camera_angle;// 2 * atan(0.66/1.0);
 }				t_character;
 
@@ -69,5 +76,6 @@ void	floodfill(char **duplicate, int x, int y);
 void	floodfill_duplicate(char **duplicate, int x, int y);
 char	**duplicate_map(t_data_global *data);
 void	check_walls_floodfill(t_data_global *data);
+t_fvector2 Rotate(t_fvector2 aPoint, float aDegree);
 
 # endif

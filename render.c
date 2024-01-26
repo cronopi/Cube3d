@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/18 14:02:55 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/26 14:09:37 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,12 @@ void render_ray(t_data_global *data, t_ray ray, int color)
 {
 	t_vector2 index;
 
-	index = ray.origin;
+	//index = *(t_vector2*)&ray.origin;
+	index.x = ceil(ray.origin.x);
+	index.y = ceil(ray.origin.y);
 	while((index.y >= 0 && index.y <= HEIGHT) && (index.x >= 0 && index.x <= WIDTH))
 	{
-		mlx_pixel_put(data->mlx, data->win, index.x, index.y, color);
+		pixel_to_img(data, index, color);
 		index.x = index.x + ray.direction.x;
 		index.y = index.y + ray.direction.y;
 	}

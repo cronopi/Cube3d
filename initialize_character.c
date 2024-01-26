@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_character.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 13:30:10 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/24 11:09:53 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/26 14:02:09 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,23 @@ t_character character_start_and_direction(char **map)
 		{
 			if (map[i][j] == 'N')
 			{
-				new_character.position = (t_vector2){j,i};
-				new_character.direction = (t_vector2){0,-1};
+				new_character.position = (t_fvector2){j,i};
+				new_character.direction = (t_fvector2){0,-1};
 			}
 			else if (map[i][j] == 'S')
 			{
-				new_character.position = (t_vector2){j,i};
-				new_character.direction = (t_vector2){0,1};
+				new_character.position = (t_fvector2){j,i};
+				new_character.direction = (t_fvector2){0,1};
 			}
 			else if (map[i][j] == 'E')
 			{
-				new_character.position = (t_vector2){j,i};
-				new_character.direction = (t_vector2){1,0};
+				new_character.position = (t_fvector2){j,i};
+				new_character.direction = (t_fvector2){1,0};
 			}
 			else if (map[i][j] == 'W')
 			{
-				new_character.position = (t_vector2){j,i};
-				new_character.direction = (t_vector2){-1,0};
+				new_character.position = (t_fvector2){j,i};
+				new_character.direction = (t_fvector2){-1,0};
 			}
 			j++;
 		}

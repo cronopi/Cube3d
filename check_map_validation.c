@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_validation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:01:20 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/24 15:41:14 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/26 13:13:35 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	check_floors(t_data_global *data)
 {
 	int			i;
-	
+
 	i = 0;
 	data->dup_map = duplicate_map(data);
 /* 	printf("\nel duplicado\n");
@@ -204,7 +204,7 @@ int	check_map_validation(t_data_global *data)
 		return (0);
  	if (check_r_and_n(data) != 1)
 		return (0);
-/* 	if (check_floors(data) != 1)
-		return (0); */
+	if (check_floors(data) != 1)
+		return (0);
 	return (1);
 }

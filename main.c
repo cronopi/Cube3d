@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/24 13:42:57 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:30:14 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,8 @@ void	leaks(void)
 void	print_map(char **map)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 0;
 	while(map[i] != NULL)
 	{
 		printf("%s", map[i]);
@@ -57,7 +55,7 @@ int	main(int argc, char **argv)
 	data.map = open_and_return_map(argv[1]);
 	print_map(data.map);
 	data.character = initialize_character(data.map);
-	
+
 	if (check_map_validation(&data) == 0)
 	{
 		printf("hay un error de validez en el mapa");
