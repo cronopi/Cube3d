@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/26 14:09:37 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/28 11:03:51 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,32 @@ void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 
 void render_ray(t_data_global *data, t_ray ray, int color)
 {
-	t_vector2 index;
+	t_fvector2 index;
+	t_vector2 index2;
 
-	//index = *(t_vector2*)&ray.origin;
 	index.x = ceil(ray.origin.x);
 	index.y = ceil(ray.origin.y);
 	while((index.y >= 0 && index.y <= HEIGHT) && (index.x >= 0 && index.x <= WIDTH))
 	{
-		pixel_to_img(data, index, color);
+		index2.x = ceil(index.x);
+		index2.y = ceil(index.y);
+		pixel_to_img(data, index2, color);
 		index.x = index.x + ray.direction.x;
 		index.y = index.y + ray.direction.y;
 	}
+}
+
+void	render_camera(t_data_global *data, int color)
+{
+	t_ray tmp_ray;
+
+	data->character.camera_angle = 60;
+	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
+	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
+	tmp_ray.direction = data->character.direction;
+	render_ray(data, tmp_ray, color);
+	tmp_ray.direction = Rotate(tmp_ray.direction, (-data->character.camera_angle/ 2));
+	render_ray(data, tmp_ray, color);
 }
 
 void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int color)
@@ -68,14 +83,12 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 void render_character(t_data_global data)
 {
 	t_ray tmp_ray;
-
 	tmp_ray.origin.x = (data.character.position.x * 32) + 16;
 	tmp_ray.origin.y = (data.character.position.y * 32) + 16;
 
 	tmp_ray.direction = data.character.direction;
-
+	printf("la direccion: %f %f\n", tmp_ray.direction.x, tmp_ray.direction.y);
 	render_ray(&data, tmp_ray, 0xff5900ff);
-
 	render_rectangle((&data), (t_vector2){((data.character.position.x * 32) + 8), ((data.character.position.y * 32) + 8)}, (t_vector2){16, 16}, 0xff5900ff);
 }
 
@@ -110,6 +123,7 @@ int	render(t_data_global *data)
 
 	render_walls(data);
 	render_character(*data);
+	render_camera(data, 0xff9900ff);
 
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
