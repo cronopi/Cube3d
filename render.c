@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/28 11:03:51 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/29 17:17:57 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,13 @@ void	render_camera(t_data_global *data, int color)
 	tmp_ray.direction = data->character.direction;
 	render_ray(data, tmp_ray, color);
 	tmp_ray.direction = Rotate(tmp_ray.direction, (-data->character.camera_angle/ 2));
-	render_ray(data, tmp_ray, color);
+/* 	int i = 0;
+ 	while(i < WIDTH)
+	{
+		render_ray(data, tmp_ray, color);
+		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
+		i++;
+	} */
 }
 
 void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int color)
@@ -87,7 +93,6 @@ void render_character(t_data_global data)
 	tmp_ray.origin.y = (data.character.position.y * 32) + 16;
 
 	tmp_ray.direction = data.character.direction;
-	printf("la direccion: %f %f\n", tmp_ray.direction.x, tmp_ray.direction.y);
 	render_ray(&data, tmp_ray, 0xff5900ff);
 	render_rectangle((&data), (t_vector2){((data.character.position.x * 32) + 8), ((data.character.position.y * 32) + 8)}, (t_vector2){16, 16}, 0xff5900ff);
 }

@@ -6,25 +6,24 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:10:58 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/28 10:46:06 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/29 16:35:45 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
 
-void look_sideways_keys(int key, t_data_global *data) // tiene que mirar a la izquierda y derecha
+void look_sideways_keys(int key, t_data_global *data)
 {
 	(void)data;
 	//if (key == 123)
 	if (key == 97)
 	{
 		data->character.direction = Rotate(data->character.direction, 1.0);
-		printf("left arrow\n");
 	}
 	//else if (key == 124)
 	if (key == 100)
 	{
-		printf("right arrow\n");
+		data->character.direction = Rotate(data->character.direction, -1.0);
 	}
 }
 
@@ -35,19 +34,16 @@ void look_sideways_keys(int key, t_data_global *data) // tiene que mirar a la iz
 	if (key == 65364)
 	{
 		data->character.position.y = data->character.position.y + 1;
-		printf("abajo\n");
 	}
 	//else if (key == 2)
 	else if (key == 65363)
 	{
 		data->character.position.x = data->character.position.x + 1;
-		printf("derecha\n");
 	}
 }
 
 void	movements_keys(int key, t_data_global *data)
 {
-		(void)data;
 		//if (key == 13)
 		if (key == 65362)
 		{

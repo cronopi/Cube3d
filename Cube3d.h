@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/26 14:02:26 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/29 09:56:58 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_character
 {
 	t_fvector2	position;
 	t_fvector2	direction;
-	float		camera_angle;// 2 * atan(0.66/1.0);
+	float		camera_angle;
 }				t_character;
 
 typedef struct s_data_global
