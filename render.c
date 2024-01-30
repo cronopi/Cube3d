@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/29 17:17:57 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/30 15:47:16 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,18 @@ void render_ray(t_data_global *data, t_ray ray, int color)
 {
 	t_fvector2 index;
 	t_vector2 index2;
+	int square_plx = 64;
 
 	index.x = ceil(ray.origin.x);
 	index.y = ceil(ray.origin.y);
-	while((index.y >= 0 && index.y <= HEIGHT) && (index.x >= 0 && index.x <= WIDTH))
+	while((index.y >= 0 && index.y <= HEIGHT && index.y < ray.origin.y + (square_plx -16)) && (index.x >= 0 && index.x <= WIDTH && index.x < ray.origin.x + (square_plx -16))) // && index.x < ray.origin.x + (square_plx -16)
 	{
 		index2.x = ceil(index.x);
 		index2.y = ceil(index.y);
 		pixel_to_img(data, index2, color);
 		index.x = index.x + ray.direction.x;
 		index.y = index.y + ray.direction.y;
+		//si no encuentra un 0 en la pared aumenta square_plx 32
 	}
 }
 
@@ -61,6 +63,7 @@ void	render_camera(t_data_global *data, int color)
 	{
 		render_ray(data, tmp_ray, color);
 		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
+		printf("valor de :%i\n", i);
 		i++;
 	} */
 }
@@ -107,9 +110,9 @@ void render_walls(t_data_global *data)
 	{
 		while (data->map[coords.y][coords.x] != '\0')
 		{
-			if (data->map[coords.y][coords.x] == '0')
+			if (data->map[coords.y][coords.x] == '0' || data->map[coords.y][coords.x] == 'E')
 			{
-				render_rectangle(data, (t_vector2){(coords.x * 32), (coords.y * 32)}, (t_vector2){32, 32}, 0xffffffff);
+				render_rectangle(data, (t_vector2){(coords.x * 32), (coords.y * 32)}, (t_vector2){32, 32}, 0xDFEDDDff);
 			}
 			else if (data->map[coords.y][coords.x] == '1')
 			{
@@ -129,7 +132,6 @@ int	render(t_data_global *data)
 	render_walls(data);
 	render_character(*data);
 	render_camera(data, 0xff9900ff);
-
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
 	return (0);

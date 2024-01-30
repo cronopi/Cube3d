@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rotate_vector2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 13:40:55 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/28 10:53:10 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/30 12:16:04 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 t_fvector2 Rotate(t_fvector2 aPoint, float aDegree)
 {
 	float rad = aDegree * (pi / 180.0);
+
 	float s = sin(rad);
 	float c = cos(rad);
 
 	t_fvector2 result;
 	result.x = aPoint.x * c - aPoint.y * s;
 	result.y = aPoint.y * c + aPoint.x * s;
-
 	return (result);
 }

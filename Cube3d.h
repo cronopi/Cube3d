@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/29 09:56:58 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/30 12:13:28 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@
 # include <math.h>
 # include <stdlib.h>
 # include "libft/libft.h"
-# include "mlx/mlx.h"
-# include "Vector3.h"
-//# include <mlx.h>
+//# include "mlx/mlx.h"
+# include <mlx.h>
 
-# define WIDTH 920
-# define HEIGHT 540
+# define WIDTH 640
+# define HEIGHT 600
 # define pi 3.14159264
 
 typedef struct s_vector2

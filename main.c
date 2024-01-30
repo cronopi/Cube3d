@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/25 12:30:14 by roberto          ###   ########.fr       */
+/*   Updated: 2024/01/30 12:17:33 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,20 @@ void	print_map(char **map)
 }
 int	main(int argc, char **argv)
 {
-	(void)argc;
-	(void)argv;
 	t_data_global	data;
 
 	if (check_argc(argc) == 0)
 		return (0);
 	if (check_extension(argv) == 0)
 		return (0);
-
 	data.map = open_and_return_map(argv[1]);
 	print_map(data.map);
 	data.character = initialize_character(data.map);
-
 	if (check_map_validation(&data) == 0)
 	{
 		printf("hay un error de validez en el mapa");
 		return (0);
 	}
-/* 	printf("\nel duplicado\n");
-	int i = 0;
-	while (data.dup_map[i] != NULL)
-	{
-		printf("%s", data.dup_map[i]);
-		i++;
-	}
-	printf("\nfin duplicado\n"); */
 	data.mlx = mlx_init();
 	if (!data.mlx)
 		return (0);
@@ -79,7 +67,6 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
-
 	mlx_loop_hook(data.mlx, &render, &data);
 	mlx_hook(data.win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.win, 17, 1L << 17, close_window, &data);
