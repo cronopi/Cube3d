@@ -6,7 +6,7 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/30 15:47:16 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/01/30 16:01:18 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ void render_ray(t_data_global *data, t_ray ray, int color)
 {
 	t_fvector2 index;
 	t_vector2 index2;
-	int square_plx = 64;
+	int distance_look_x = ray.origin.x + 48;
+	int distance_look_y = ray.origin.y + 48;
+
 
 	index.x = ceil(ray.origin.x);
 	index.y = ceil(ray.origin.y);
-	while((index.y >= 0 && index.y <= HEIGHT && index.y < ray.origin.y + (square_plx -16)) && (index.x >= 0 && index.x <= WIDTH && index.x < ray.origin.x + (square_plx -16))) // && index.x < ray.origin.x + (square_plx -16)
+	while((index.y >= 0 && index.y <= HEIGHT && index.y < distance_look_y) && (index.x >= 0 && index.x <= WIDTH && index.x < distance_look_x))
 	{
 		index2.x = ceil(index.x);
 		index2.y = ceil(index.y);
