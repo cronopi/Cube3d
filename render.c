@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/30 16:01:18 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/02/01 09:48:36 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,46 +26,68 @@ void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 	buffer[pixel_position + 2] = (color >> 16) & 0xFF;
 	buffer[pixel_position + 1] = (color >> 8) & 0xFF;
 	buffer[pixel_position + 0] = (color) & 0xFF;
+}
+float ray_collision(t_data_global *data, t_ray ray)
+{
+	float lengh_ray;
 
+	lengh_ray = 0;
+	(void)data;
+	(void)ray;
+	//obtengo la distancia del punto de origen al personaje y a la pared
+	printf("valor de inicio%f %f\n", ray.origin.x, ray.origin.y);
+	//printf("valor de inicio%f %f\n", ray.direction.x, ray.direction.y);
+	//mientras ray.direction.x sea entre 0 y 1 yo se que va hacia la derecha en el mapa
+	//mientras ray.direction.y sea entre 0 y 1 yo se que va hacia abajo en el mapa
+	ray.check.x = ray.origin.x + 16;
+	if (ray.direction.x >= 0 && ray.direction.x <= 1)
+	{
+		ray.check = ray.origin.x + 32;
+
+/* 		index.x = index.x + ray.direction.x;
+		index.y = index.y + ray.direction.y; */
+	}
+	lengh_ray = 300;
+	return (lengh_ray);
 }
 
-void render_ray(t_data_global *data, t_ray ray, int color)
+void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
 {
 	t_fvector2 index;
 	t_vector2 index2;
-	int distance_look_x = ray.origin.x + 48;
-	int distance_look_y = ray.origin.y + 48;
 
+	(void)lengh_ray;
 
 	index.x = ceil(ray.origin.x);
 	index.y = ceil(ray.origin.y);
-	while((index.y >= 0 && index.y <= HEIGHT && index.y < distance_look_y) && (index.x >= 0 && index.x <= WIDTH && index.x < distance_look_x))
+	while((index.y >= 0 && index.y <= HEIGHT) && (index.x >= 0 && index.x <= WIDTH)
+	&& ((pow(index.x - ceil(ray.origin.x), 2) + (pow(index.y - ceil(ray.origin.y), 2))) <= (lengh_ray * lengh_ray)))
 	{
 		index2.x = ceil(index.x);
 		index2.y = ceil(index.y);
 		pixel_to_img(data, index2, color);
 		index.x = index.x + ray.direction.x;
 		index.y = index.y + ray.direction.y;
-		//si no encuentra un 0 en la pared aumenta square_plx 32
 	}
 }
 
 void	render_camera(t_data_global *data, int color)
 {
 	t_ray tmp_ray;
+	float lengh_ray;
 
 	data->character.camera_angle = 60;
 	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
 	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
 	tmp_ray.direction = data->character.direction;
-	render_ray(data, tmp_ray, color);
+	lengh_ray = ray_collision(data, tmp_ray);
+	render_ray(data, tmp_ray, color, lengh_ray);
 	tmp_ray.direction = Rotate(tmp_ray.direction, (-data->character.camera_angle/ 2));
 /* 	int i = 0;
  	while(i < WIDTH)
 	{
-		render_ray(data, tmp_ray, color);
+		render_ray(data, tmp_ray, color, lengh_ray);
 		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
-		printf("valor de :%i\n", i);
 		i++;
 	} */
 }
@@ -79,7 +101,7 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 	limit.x = coords.x + size.x;
 	limit.y = coords.y + size.y;
 
-	while(coords.y < limit.y)
+	while(coords.y < limit.y) //coords.y >= 0 && coords.y <= HEIGHT
 	{
 		while (coords.x < limit.x)
 		{
@@ -93,12 +115,6 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 
 void render_character(t_data_global data)
 {
-	t_ray tmp_ray;
-	tmp_ray.origin.x = (data.character.position.x * 32) + 16;
-	tmp_ray.origin.y = (data.character.position.y * 32) + 16;
-
-	tmp_ray.direction = data.character.direction;
-	render_ray(&data, tmp_ray, 0xff5900ff);
 	render_rectangle((&data), (t_vector2){((data.character.position.x * 32) + 8), ((data.character.position.y * 32) + 8)}, (t_vector2){16, 16}, 0xff5900ff);
 }
 
@@ -112,7 +128,7 @@ void render_walls(t_data_global *data)
 	{
 		while (data->map[coords.y][coords.x] != '\0')
 		{
-			if (data->map[coords.y][coords.x] == '0' || data->map[coords.y][coords.x] == 'E')
+			if (data->map[coords.y][coords.x] == '0')
 			{
 				render_rectangle(data, (t_vector2){(coords.x * 32), (coords.y * 32)}, (t_vector2){32, 32}, 0xDFEDDDff);
 			}

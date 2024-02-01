@@ -1,29 +1,32 @@
 RM = rm -f
-
 CC = gcc
-#FLAGS_MLX =-Lmlx -lmlx_Linux -Llibft -lft -lXext -lX11 -lm -lz #-g3 -fsanitize=address
-FLAGS_MLX = -lmlx -framework OpenGL -framework AppKit
+FLAGS_MLX = -Lmlx -lmlx_Linux -Llibft -lft -lXext -lX11 -lm -lz #-g3 -fsanitize=address
+#FLAGS_MLX = -lmlx -framework OpenGL -framework AppKit
 FLAGS = -Wall -Wextra -Werror -g
 
-LIBFT= -L libft -lft
+LIBFT = -L libft -lft
 
 NAME = Cube3d
-SRC = main.c render.c keys.c check_extension.c open_map.c initialize_character.c check_map_validation.c\
-duplicate_map.c floodfill.c rotate_vector2.c
+OBJ_DIR = objetos
 
-OBJ = $(SRC:.c=.o)
+SRC = main.c render.c keys.c check_extension.c open_map.c initialize_character.c \
+		check_map_validation.c duplicate_map.c floodfill.c rotate_vector2.c
 
-#%.o: %.c
-#	$(CC) $(FLAGS) $(FLAGS_MLX) -c -o $@ $<
+OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
-%.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+$(OBJ_DIR)/%.o: %.c
+	$(CC) $(FLAGS) $(FLAGS_MLX) -c -o $@ $<
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	make -C libft
 	$(CC) $(OBJ) $(FLAGS) $(FLAGS_MLX) $(LIBFT) -o $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(OBJ): | $(OBJ_DIR)
 
 clean:
 	$(RM) $(OBJ)
@@ -35,4 +38,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: bonus all clean fclean re
+.PHONY: all clean fclean re
