@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_validation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:01:20 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/31 11:28:08 by roberto          ###   ########.fr       */
+/*   Updated: 2024/02/01 15:24:57 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,7 @@ int	check_floors(t_data_global *data)
 
 	i = 0;
 	data->dup_map = duplicate_map(data);
-/* 	printf("\nel duplicado\n");
-	while (data.dup_map[i] != NULL)
-	{
-		printf("%s", data.dup_map[i]);
-		i++;
-	}
-	printf("\nfin duplicado\n"); */
 	floodfill(data->dup_map, data->character.position.x, data->character.position.y);
-/* 	printf("\nel floodfill\n");
-	while (data.dup_map[i] != NULL)
-	{
-		printf("%s", data.dup_map[i]);
-		i++;
-	}
-	printf("\ntermina floodfill\n"); */
 	floodfill_duplicate(data->dup_map, data->character.position.x, data->character.position.y);
 	printf("\nel floodfill duplicado\n");
 	while (data->dup_map[i] != NULL)
@@ -42,13 +28,6 @@ int	check_floors(t_data_global *data)
 	}
 	printf("\ntermina el floodfill dplicaado\n");
 	check_walls_floodfill(data);
-/* 		printf("\ncheckear paredes\n");
-	while (data.dup_map[i] != NULL)
-	{
-		printf("%s", data.dup_map[i]);
-		i++;
-	}
-	printf("\ntermina checkear paredes\n"); */
 	return (1);
 }
 
@@ -65,7 +44,7 @@ int	check_character(char **map)
 	{
 		while(map[i][j] != '\0')
 		{
-			if (map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'S' || map[i][j] == 'E')
+			if (map[i][j] == 'N' || map[i][j] == 'E' || map[i][j] == 'S' || map[i][j] == 'W')
 			{
 				map[i][j] = '0';
 				character++;
@@ -133,7 +112,7 @@ int	check_posible_characters(t_data_global *data)
 		while(data->map[i][j] != '\0')
 		{
 			if (data->map[i][j] != 'N' && data->map[i][j] != 'E' && data->map[i][j] != 'S' &&
-				data->map[i][j] != 'E' && data->map[i][j] != '0' && data->map[i][j] != '1' &&
+				data->map[i][j] != 'W' && data->map[i][j] != '0' && data->map[i][j] != '1' &&
 				data->map[i][j] != '\n' && data->map[i][j] != ' ')
 			{
 				printf("valor de %i %i\n", i, j);

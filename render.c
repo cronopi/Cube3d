@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/01 09:48:36 by roberto          ###   ########.fr       */
+/*   Updated: 2024/02/01 15:51:46 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,47 @@ void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 float ray_collision(t_data_global *data, t_ray ray)
 {
 	float lengh_ray;
+	t_vector2 map_position;
+	t_fvector2 pixel_position;
 
 	lengh_ray = 0;
-	(void)data;
-	(void)ray;
-	//obtengo la distancia del punto de origen al personaje y a la pared
-	printf("valor de inicio%f %f\n", ray.origin.x, ray.origin.y);
-	//printf("valor de inicio%f %f\n", ray.direction.x, ray.direction.y);
-	//mientras ray.direction.x sea entre 0 y 1 yo se que va hacia la derecha en el mapa
-	//mientras ray.direction.y sea entre 0 y 1 yo se que va hacia abajo en el mapa
-	ray.check.x = ray.origin.x + 16;
-	if (ray.direction.x >= 0 && ray.direction.x <= 1)
+/* 	pixel_position.x = ray.origin.x + 16;
+	pixel_position.y = ray.origin.y + 16;
+	map_position.x = pixel_position.x / 32;
+	map_position.y = pixel_position.y / 32;
+	//printf(" valores para checkeo %i %i %f %f\n", map_position.x, map_position.y, pixel_position.x, pixel_position.y);
+	while (map_position.x < 10)
 	{
-		ray.check = ray.origin.x + 32;
-
-/* 		index.x = index.x + ray.direction.x;
-		index.y = index.y + ray.direction.y; */
+		printf("estás entrando?\n");
+		if(data->map[map_position.y - 1][map_position.x] == '1')
+		{
+			printf("entro? %i %i\n", map_position.y, map_position.x );
+			lengh_ray = pixel_position.x - ray.origin.x;
+			return (lengh_ray);
+		}
+			map_position.x += 1;
+			pixel_position.x = pixel_position.x + 32;
+			printf("posicion del mapa%i\n", map_position.x);
+			printf("posicion del pixel%f\n", pixel_position.x);
+	} */
+	pixel_position.x = ray.origin.x - 16;
+	pixel_position.y = ray.origin.y - 16;
+	map_position.x = pixel_position.x / 32;
+	map_position.y = pixel_position.y / 32;
+	while (map_position.x > 0)
+	{
+			map_position.x -= 1;
+			pixel_position.x = pixel_position.x - 32;
+			printf("posicion del mapa%i\n", map_position.x);
+			printf("posicion del pixel%f\n", pixel_position.x);
+		if(data->map[map_position.y][map_position.x] == '1')
+		{
+			printf("entro? %i %i\n", map_position.y, map_position.x );
+			printf("que estoy restando%f %f", ray.origin.x, pixel_position.x);
+			lengh_ray = ray.origin.x - pixel_position.x ;
+			return (lengh_ray);
+		}
 	}
-	lengh_ray = 300;
 	return (lengh_ray);
 }
 
@@ -55,8 +78,6 @@ void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
 {
 	t_fvector2 index;
 	t_vector2 index2;
-
-	(void)lengh_ray;
 
 	index.x = ceil(ray.origin.x);
 	index.y = ceil(ray.origin.y);
@@ -76,6 +97,7 @@ void	render_camera(t_data_global *data, int color)
 	t_ray tmp_ray;
 	float lengh_ray;
 
+	(void)lengh_ray;
 	data->character.camera_angle = 60;
 	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
 	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
@@ -149,7 +171,7 @@ int	render(t_data_global *data)
 
 	render_walls(data);
 	render_character(*data);
-	render_camera(data, 0xff9900ff);
+	render_camera(data, 0x894131ff);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
 	return (0);
