@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/01 15:51:46 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/02/12 12:28:55 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,92 +26,6 @@ void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 	buffer[pixel_position + 2] = (color >> 16) & 0xFF;
 	buffer[pixel_position + 1] = (color >> 8) & 0xFF;
 	buffer[pixel_position + 0] = (color) & 0xFF;
-}
-float ray_collision(t_data_global *data, t_ray ray)
-{
-	float lengh_ray;
-	t_vector2 map_position;
-	t_fvector2 pixel_position;
-
-	lengh_ray = 0;
-/* 	pixel_position.x = ray.origin.x + 16;
-	pixel_position.y = ray.origin.y + 16;
-	map_position.x = pixel_position.x / 32;
-	map_position.y = pixel_position.y / 32;
-	//printf(" valores para checkeo %i %i %f %f\n", map_position.x, map_position.y, pixel_position.x, pixel_position.y);
-	while (map_position.x < 10)
-	{
-		printf("estás entrando?\n");
-		if(data->map[map_position.y - 1][map_position.x] == '1')
-		{
-			printf("entro? %i %i\n", map_position.y, map_position.x );
-			lengh_ray = pixel_position.x - ray.origin.x;
-			return (lengh_ray);
-		}
-			map_position.x += 1;
-			pixel_position.x = pixel_position.x + 32;
-			printf("posicion del mapa%i\n", map_position.x);
-			printf("posicion del pixel%f\n", pixel_position.x);
-	} */
-	pixel_position.x = ray.origin.x - 16;
-	pixel_position.y = ray.origin.y - 16;
-	map_position.x = pixel_position.x / 32;
-	map_position.y = pixel_position.y / 32;
-	while (map_position.x > 0)
-	{
-			map_position.x -= 1;
-			pixel_position.x = pixel_position.x - 32;
-			printf("posicion del mapa%i\n", map_position.x);
-			printf("posicion del pixel%f\n", pixel_position.x);
-		if(data->map[map_position.y][map_position.x] == '1')
-		{
-			printf("entro? %i %i\n", map_position.y, map_position.x );
-			printf("que estoy restando%f %f", ray.origin.x, pixel_position.x);
-			lengh_ray = ray.origin.x - pixel_position.x ;
-			return (lengh_ray);
-		}
-	}
-	return (lengh_ray);
-}
-
-void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
-{
-	t_fvector2 index;
-	t_vector2 index2;
-
-	index.x = ceil(ray.origin.x);
-	index.y = ceil(ray.origin.y);
-	while((index.y >= 0 && index.y <= HEIGHT) && (index.x >= 0 && index.x <= WIDTH)
-	&& ((pow(index.x - ceil(ray.origin.x), 2) + (pow(index.y - ceil(ray.origin.y), 2))) <= (lengh_ray * lengh_ray)))
-	{
-		index2.x = ceil(index.x);
-		index2.y = ceil(index.y);
-		pixel_to_img(data, index2, color);
-		index.x = index.x + ray.direction.x;
-		index.y = index.y + ray.direction.y;
-	}
-}
-
-void	render_camera(t_data_global *data, int color)
-{
-	t_ray tmp_ray;
-	float lengh_ray;
-
-	(void)lengh_ray;
-	data->character.camera_angle = 60;
-	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
-	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
-	tmp_ray.direction = data->character.direction;
-	lengh_ray = ray_collision(data, tmp_ray);
-	render_ray(data, tmp_ray, color, lengh_ray);
-	tmp_ray.direction = Rotate(tmp_ray.direction, (-data->character.camera_angle/ 2));
-/* 	int i = 0;
- 	while(i < WIDTH)
-	{
-		render_ray(data, tmp_ray, color, lengh_ray);
-		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
-		i++;
-	} */
 }
 
 void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int color)
@@ -133,6 +47,156 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 		coords.x = index.x;
 		coords.y++;
 	}
+}
+/* float ray_collision(t_data_global *data, t_ray ray)
+{
+	float lengh_ray;
+	float lengh_ray_y;
+	float h;
+	float h2;
+	t_vector2 map_position;
+	t_fvector2 pixel_position;
+
+	lengh_ray = 0;
+	pixel_position.x = ray.origin.x + 16;
+	pixel_position.y = ray.origin.y + 16;
+	map_position.x = ray.origin.x / 32;
+	map_position.y = ray.origin.y / 32;
+	while (ray.direction.x > 0)
+	{
+		//printf("mirando derecha\n");
+		if(data->map[map_position.y][map_position.x] == '1')
+		{
+			lengh_ray = pixel_position.x - ray.origin.x - 32;
+			lengh_ray_y = (ray.direction.y * lengh_ray) / ray.direction.x;
+			h2 = pow((lengh_ray), 2) + pow((lengh_ray_y), 2);
+			break;
+		}
+		map_position.x += 1;
+		pixel_position.x = pixel_position.x + 32;
+		pixel_position.y = pixel_position.y + (32.0 * ray.direction.y / ray.direction.x);
+	}
+	while (ray.direction.x < 0)
+	{
+		//printf("mirando izquierda\n");
+		if(data->map[map_position.y][map_position.x] == '1')
+		{
+			lengh_ray = ray.origin.x - pixel_position.x;
+			lengh_ray_y = (ray.direction.y * lengh_ray) / ray.direction.x;
+			h2 = pow((lengh_ray), 2) + pow((lengh_ray_y), 2);
+			break;
+		}
+		map_position.x -= 1;
+		pixel_position.x = pixel_position.x - 32;
+		pixel_position.y = pixel_position.y + (32.0 * ray.direction.y / ray.direction.x);
+	}
+	map_position.x = ray.origin.x / 32;
+	map_position.y = ray.origin.y / 32;
+	while (ray.direction.y > 0)
+	{
+		//printf("mirando abajo\n");
+		if(data->map[map_position.y][map_position.x] == '1')
+		{
+			lengh_ray_y = pixel_position.y - ray.origin.y -32;
+			//printf("el pixel %f y el rayo %f\n", pixel_position.y, ray.origin.y);
+			//lengh_ray_y = pixel_position.y - ray.origin.y;
+			lengh_ray = (ray.direction.x * lengh_ray_y) / ray.direction.y;
+			h = pow((lengh_ray), 2) + pow((lengh_ray_y), 2);
+			break;
+		}
+		map_position.y += 1;
+		pixel_position.y += 32;
+		pixel_position.x = pixel_position.x + (32.0 * ray.direction.x / ray.direction.y);
+	}
+	while (ray.direction.y < 0)
+	{
+		//printf("mirando arriba\n");
+		if(data->map[map_position.y][map_position.x] == '1')
+		{
+			//lengh_ray_y = ray.origin.y - pixel_position.y - 32;
+			lengh_ray_y = ray.origin.y - pixel_position.y ;
+			lengh_ray = (ray.direction.x * lengh_ray_y) / ray.direction.y;
+			h = pow((lengh_ray), 2) + pow((lengh_ray_y), 2);
+			break;
+		}
+		map_position.y -= 1;
+		pixel_position.y -= 32;
+		pixel_position.x = pixel_position.x + (32.0 * ray.direction.x / ray.direction.y);
+	}
+	if (h < h2)
+		return (h);
+	return (h2);
+} */
+float ray_collision(t_data_global *data, t_ray ray)
+{
+	float h2;
+
+	h2 = 15;
+	t_fvector2 pixel_position;
+	pixel_to_img(data, (t_vector2){(int)ray.origin.x, (int)ray.origin.y}, 0xFFFF00ff);
+	/* pixel_position.x = ray.origin.x - 16;
+	pixel_position.y = ray.origin.y + 16; */
+	pixel_position.x = ceil(ray.origin.x);
+	pixel_position.y = ceil(ray.origin.y);
+	render_rectangle(data, (t_vector2){(int)pixel_position.x - 2, (int)pixel_position.y -2}, (t_vector2){4, 4}, 0xFFAAFFff);
+	while (ray.direction.x > 0 && ray.direction.y < 0)
+	{
+		if(data->map[(int)pixel_position.y / 32][(int)pixel_position.x / 32] == '1')
+		{
+			h2 = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
+			break;
+		}
+		pixel_position.x = pixel_position.x + 16;
+		pixel_position.y = pixel_position.y + (16 * ray.direction.y / ray.direction.x);
+		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
+			break;
+		pixel_to_img(data, (t_vector2){(int)pixel_position.x, (int)pixel_position.y}, 0xFFFF00ff);
+	}
+	while (ray.direction.x > 0 && ray.direction.y > 0)
+	{
+
+	}
+	return (h2);
+}
+void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
+{
+	t_fvector2 index;
+	t_vector2 index2;
+
+	index.x = ceil(ray.origin.x);
+	index.y = ceil(ray.origin.y);
+	while((index.y >= 0 && index.y <= HEIGHT) && (index.x >= 0 && index.x <= WIDTH)
+	&& ((pow(index.x - ceil(ray.origin.x), 2) + (pow(index.y - ceil(ray.origin.y), 2))) <= lengh_ray))
+	{
+		index2.x = ceil(index.x);
+		index2.y = ceil(index.y);
+		pixel_to_img(data, index2, color);
+		index.x = index.x + ray.direction.x;
+		index.y = index.y + ray.direction.y;
+	}
+}
+
+void	render_camera(t_data_global *data, int color)
+{
+	t_ray tmp_ray;
+	float lengh_ray;
+
+	(void)lengh_ray;
+	data->character.camera_angle = 60;
+	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
+	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
+	tmp_ray.direction = data->character.direction;
+	tmp_ray.direction = Rotate(tmp_ray.direction, (-data->character.camera_angle/ 2));
+	lengh_ray = ray_collision(data, tmp_ray);
+	render_ray(data, tmp_ray, color, lengh_ray);
+	//int i = 0;
+/*  	while(i < WIDTH)
+	{
+		lengh_ray = ray_collision(data, tmp_ray);
+		render_ray(data, tmp_ray, color, lengh_ray);
+		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
+		i++;
+	} */
 }
 
 void render_character(t_data_global data)

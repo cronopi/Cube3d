@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/01 11:20:30 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/02/02 09:27:48 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <math.h>
 # include <stdlib.h>
 # include "libft/libft.h"
-//# include "mlx/mlx.h"
-# include <mlx.h>
+# include "mlx/mlx.h"
+//# include <mlx.h>
 
 # define WIDTH 640
 # define HEIGHT 600
