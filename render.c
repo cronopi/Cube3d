@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/12 12:28:55 by roberto          ###   ########.fr       */
+/*   Updated: 2024/02/13 17:32:50 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,14 @@ float ray_collision(t_data_global *data, t_ray ray)
 		pixel_to_img(data, (t_vector2){(int)pixel_position.x, (int)pixel_position.y}, 0xFFFF00ff);
 	}
 	while (ray.direction.x > 0 && ray.direction.y > 0)
+	{
+
+	}
+	while (ray.direction.x < 0 && ray.direction.y > 0)
+	{
+
+	}
+	while (ray.direction.x < 0 && ray.direction.y < 0)
 	{
 
 	}
