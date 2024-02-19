@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/02 09:27:48 by roberto          ###   ########.fr       */
+/*   Updated: 2024/02/19 09:57:17 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ typedef struct s_ray
 	t_fvector2 direction;
 }				t_ray;
 
+typedef struct s_collision
+{
+	float	lengh_ray;
+	int		horizontal_position;
+
+}				t_collision;
+
 typedef struct s_character
 {
 	t_fvector2	position;
@@ -53,8 +60,20 @@ typedef struct s_character
 	float		camera_angle;
 }				t_character;
 
+typedef struct s_img
+{
+	void	*img;
+	void	*ptr;
+	int		width;
+	int		height;
+	int		bpp;
+	int		stride;
+	int		endian;
+}				t_img;
+
 typedef struct s_data_global
 {
+	t_img			wall;
 	void 			*img;
 	void			*mlx;
 	void			*win;

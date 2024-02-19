@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/01/30 12:17:33 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:51:07 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,24 @@ void	print_map(char **map)
 	}
 	printf("\nfin de impresion del mapa\n");
 }
+
+void	set_up_texture_map(t_data_global *data)
+{
+	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "./wall.xmp", &data->wall.width, &data->wall.height)) == 0)
+	{
+		printf("error1\n");
+		exit (1);
+	}
+	if ((data->wall.ptr = mlx_get_data_addr(data->wall.img, &data->wall.bpp, &data->wall.stride, &data->wall.endian)) == 0)
+	{
+		printf("error2\n");
+		exit (1);
+	}
+	data->wall.bpp /= 8;
+	data->wall.width = data->wall.stride / data->wall.bpp;
+	data->wall.height = data->wall.stride / data->wall.bpp;
+}
+
 int	main(int argc, char **argv)
 {
 	t_data_global	data;
@@ -67,6 +85,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
+	//set_up_texture_map(&data);
 	mlx_loop_hook(data.mlx, &render, &data);
 	mlx_hook(data.win, 2, 1L << 0, keys, &data);
 	mlx_hook(data.win, 17, 1L << 17, close_window, &data);
