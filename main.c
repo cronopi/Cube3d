@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/02/19 11:51:07 by roberto          ###   ########.fr       */
+/*   Updated: 2024/02/26 09:54:38 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ void	print_map(char **map)
 
 void	set_up_texture_map(t_data_global *data)
 {
-	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "./wall.xmp", &data->wall.width, &data->wall.height)) == 0)
+	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall_1.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-	if ((data->wall.ptr = mlx_get_data_addr(data->wall.img, &data->wall.bpp, &data->wall.stride, &data->wall.endian)) == 0)
+	if ((data->wall.ptr = mlx_get_data_addr(data->wall.img, &data->wall.bpp, &data->wall.stride, &data->wall.endian)) == NULL)
 	{
 		printf("error2\n");
 		exit (1);
@@ -67,7 +67,7 @@ int	main(int argc, char **argv)
 		return (0);
 	if (check_extension(argv) == 0)
 		return (0);
-	data.map = open_and_return_map(argv[1]);
+	data.map = open_and_return_map(argv[1], &data);
 	print_map(data.map);
 	data.character = initialize_character(data.map);
 	if (check_map_validation(&data) == 0)
