@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/26 09:15:53 by roberto          ###   ########.fr       */
+/*   Updated: 2024/02/29 13:48:51 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_data_global
 {
 	t_vector2		map_size;
 	t_img			wall;
-	void 			*img;
+	void			*img;
 	void			*mlx;
 	void			*win;
 	char			**map;
@@ -93,7 +93,6 @@ int		check_argc(int argc);
 int		check_extension(char **argv);
 int		check_map_validation(t_data_global *data);
 char	**open_and_return_map(char *file_name, t_data_global *data);
-//char	**open_and_return_map(char *file_name);
 void	floodfill(char **duplicate, int x, int y);
 void	floodfill_duplicate(char **duplicate, int x, int y);
 char	**duplicate_map(t_data_global *data);

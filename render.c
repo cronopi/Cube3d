@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/26 10:10:55 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/01 11:05:32 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 			collision_data_horizontal.horizontal_position = (int)pixel_position.y % 32;
 			break;
 		}
-		pixel_position.x += ray.direction.x * 2;
-		pixel_position.y += ray.direction.y * 2;
+		pixel_position.x += ray.direction.x * 1;
+		pixel_position.y += ray.direction.y * 1;
 
 		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
 			break;
@@ -80,8 +80,8 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 			collision_data_horizontal.horizontal_position = (int)pixel_position.y % 32;
 			break;
 		}
-		pixel_position.x += ray.direction.x * 2;
-		pixel_position.y += ray.direction.y * 2;
+		pixel_position.x += ray.direction.x * 1;
+		pixel_position.y += ray.direction.y * 1;
 
 		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
 			break;
@@ -94,8 +94,8 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 			collision_data_horizontal.horizontal_position = (int)pixel_position.y % 32;
 			break;
 		}
-		pixel_position.x += ray.direction.x * 2;
-		pixel_position.y += ray.direction.y * 2;
+		pixel_position.x += ray.direction.x * 1;
+		pixel_position.y += ray.direction.y * 1;
 		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
 			break;
 	}
@@ -107,8 +107,8 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 			collision_data_horizontal.horizontal_position = (int)pixel_position.y % 32;
 			break;
 		}
-		pixel_position.x += ray.direction.x * 2;
-		pixel_position.y += ray.direction.y * 2;
+		pixel_position.x += ray.direction.x * 1;
+		pixel_position.y += ray.direction.y * 1;
 
 		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
 			break;
@@ -134,18 +134,78 @@ void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
 	}
 }
 
-void render_3d(t_data_global *data, int column, t_collision collision_data)
+double	get_dot_vector(t_fvector2 vector1, t_fvector2 vector2)
+{
+	double dot;
+
+	dot = (vector1.x * vector2.x) + (vector1.y * vector2.y);
+	return(dot);
+}
+
+double	get_magnitud(t_fvector2 vector)
+{
+	double magnitud;
+
+	magnitud = get_dot_vector(vector, vector);
+	magnitud = sqrt(magnitud);
+	return (magnitud);
+}
+float	get_angle_3d(t_fvector2 vector1, t_fvector2 vector2)
+{
+	float dot;
+	float magnitud_product;
+
+	dot = get_dot_vector(vector1, vector2);
+	magnitud_product = get_magnitud(vector1) * get_magnitud(vector2);
+	if (magnitud_product == 0)
+		return (0);
+	return (dot / magnitud_product);
+}
+
+float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 player_direction, int vertical_height)
+{
+	double angle;
+	double	corrected_distance;
+	double	wall_height;
+	angle = get_angle_3d(ray_direction, player_direction);
+	(void) angle;
+	corrected_distance = lengh_ray; //* cos(angle);
+	wall_height = vertical_height / corrected_distance;
+	return (wall_height * 1450);
+}
+
+void	render_img_in_walls(t_data_global *data, int column, float wall_height, int horizontal)
+{
+	int color;
+	int i;
+	int j;
+
+	i = 0;
+	while(i < wall_height)
+	{
+		j = i * 32 / wall_height;
+		color =  *((int *)data->wall.ptr + ((j * data->wall.width) + (horizontal % 32)));
+		pixel_to_img(data, (t_vector2){column,  (HEIGHT / 2) - ((wall_height / 2) - i)}, color);
+		i++;
+	}
+}
+void	render_3d(t_data_global *data, int column, t_collision collision_data, float wall_height)
 {
 	t_vector2 coords;
 	t_vector2 size;
 
-	coords.y = 0;
+	(void)collision_data;
+	(void)coords;
+	if (wall_height >= HEIGHT)
+		wall_height = HEIGHT;
+	coords.y = (HEIGHT / 2) - (wall_height / 2);
 	coords.x = column;
 	size.x = 1;
-	size.y = HEIGHT - collision_data.lengh_ray;
+	size.y = wall_height;
 	if (size.y < 0)
 		size.y = 0;
 	render_rectangle(data, coords, size, 0xffff00ff);
+	render_img_in_walls(data, column, wall_height, collision_data.horizontal_position);
 }
 
 void	render_camera(t_data_global *data, int color)
@@ -153,6 +213,7 @@ void	render_camera(t_data_global *data, int color)
 	t_collision collision_data;
 	t_ray tmp_ray;
 	float lengh_ray;
+	float	wall_height;
 
 	(void)lengh_ray;
 	data->character.camera_angle = 60;
@@ -165,7 +226,8 @@ void	render_camera(t_data_global *data, int color)
  	while(i < WIDTH)
 	{
 		collision_data = ray_collision(data, tmp_ray);
-		render_3d(data, i, collision_data);
+		wall_height = get_wall_height(collision_data.lengh_ray, tmp_ray.direction, data->character.direction, HEIGHT);
+		render_3d(data, i, collision_data, wall_height);
 		render_ray(data, tmp_ray, color, collision_data.lengh_ray);
 		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
 		i++;
@@ -210,7 +272,7 @@ int	render(t_data_global *data)
 	render_character(*data);
 	render_camera(data, 0x894131ff);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	//mlx_put_image_to_window(data->mlx, data->win, data->wall.img, 1, 1);
+	mlx_put_image_to_window(data->mlx, data->win, data->wall.img, 1, 1);
 	mlx_destroy_image(data->mlx, data->img);
 	return (0);
 }
