@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/02/29 13:48:51 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/04 11:11:56 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_collision
 {
 	float	lengh_ray;
 	int		horizontal_position;
+	char	direction;
 
 }				t_collision;
 
@@ -85,6 +86,7 @@ typedef struct s_data_global
 	t_character		character;
 }				t_data_global;
 
+t_collision ray_collision(t_data_global *data, t_ray ray);
 t_character initialize_character(char **map);
 int		render(t_data_global *data);
 int		keys(int key, t_data_global *init);

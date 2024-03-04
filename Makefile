@@ -9,7 +9,7 @@ LIBFT= -L libft -lft
 
 NAME = Cube3d
 SRC = main.c render.c keys.c check_extension.c open_map.c initialize_character.c check_map_validation.c\
-duplicate_map.c floodfill.c rotate_vector2.c
+duplicate_map.c floodfill.c rotate_vector2.c ray_collision.c
 
 OBJ = $(SRC:.c=.o)
 
