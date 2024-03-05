@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/04 11:44:21 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/05 16:59:08 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,109 +47,6 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 		coords.x = index.x;
 		coords.y++;
 	}
-}
-
-t_collision ray_collision(t_data_global *data, t_ray ray)
-{
-	t_collision	collision_data;
-	t_fvector2	pixel_position;
-
-	pixel_to_img(data, (t_vector2){(int)ray.origin.x, (int)ray.origin.y}, 0xFFFF00ff);
-	pixel_position.x = ceil(ray.origin.x);
-	pixel_position.y = ceil(ray.origin.y);
-	render_rectangle(data, (t_vector2){(int)pixel_position.x - 2, (int)pixel_position.y -2}, (t_vector2){4, 4}, 0xFFAAFFff);
-	while (ray.direction.x >= 0 && ray.direction.y <= 0)
-	{
-		if(data->map[(int)pixel_position.y / 32][(int)pixel_position.x / 32] == '1')
-		{
-			collision_data.lengh_ray = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
-			if(data->map[(int)(pixel_position.y - ray.direction.y) / 32][(int)pixel_position.x / 32] == '1')
-			{
-				collision_data.direction = 'N';
-				collision_data.horizontal_position = (int)pixel_position.y % 32;
-			}
-			else
-			{
-				collision_data.horizontal_position = (int)pixel_position.x % 32;
-				collision_data.direction = 'N';
-			}
-			break;
-		}
-		pixel_position.x += ray.direction.x * 1;
-		pixel_position.y += ray.direction.y * 1;
-
-		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
-			break;
-	}
-	while (ray.direction.x >= 0 && ray.direction.y >= 0)
-	{
-		if( (((int)pixel_position.y / 32) < data->map_size.y) && data->map[(int)pixel_position.y / 32][(int)pixel_position.x / 32] == '1')
-		{
-			collision_data.lengh_ray = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
-			if(data->map[(int)(pixel_position.y - ray.direction.y) / 32][(int)pixel_position.x / 32] == '1')
-			{
-				collision_data.horizontal_position = (int)pixel_position.y % 32;
-				collision_data.direction = 'N';
-			}
-			else
-			{
-				collision_data.horizontal_position = (int)pixel_position.x % 32;
-				collision_data.direction = 'N';
-			}
-			break;
-		}
-		pixel_position.x += ray.direction.x * 1;
-		pixel_position.y += ray.direction.y * 1;
-
-		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
-			break;
-	}
-	while (ray.direction.x <= 0 && ray.direction.y >= 0)
-	{
-		if((((int)pixel_position.y / 32) < data->map_size.y) && data->map[(int)pixel_position.y / 32][((int)pixel_position.x - 1)/ 32] == '1' )
-		{
-			collision_data.lengh_ray = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
-			if(data->map[(int)(pixel_position.y - (ray.direction.y * 5)) / 32][(int)pixel_position.x / 32] == '1')
-			{
-				collision_data.horizontal_position = (int)pixel_position.x % 32;
-				collision_data.direction = 'N';
-			}
-			else
-			{
-				collision_data.horizontal_position = (int)pixel_position.y % 32;
-				collision_data.direction = 'N';
-			}
-			break;
-		}
-		pixel_position.x += ray.direction.x * 1;
-		pixel_position.y += ray.direction.y * 1;
-		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
-			break;
-	}
-	while (ray.direction.x <= 0 && ray.direction.y <= 0)
-	{
-		if(data->map[((int)pixel_position.y / 32)][(((int)pixel_position.x - 1)/ 32)] == '1')
-		{
-			collision_data.lengh_ray = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
-			if(data->map[(int)(pixel_position.y - (ray.direction.y)) / 32][(int)pixel_position.x / 32] == '1')
-			{
-				collision_data.horizontal_position = (int)pixel_position.x % 32;
-				collision_data.direction = 'O';
-			}
-			else
-			{
-				collision_data.horizontal_position = (int)pixel_position.y % 32;
-				collision_data.direction = 'O';
-			}
-			break;
-		}
-		pixel_position.x += ray.direction.x * 1;
-		pixel_position.y += ray.direction.y * 1;
-
-		if (pixel_position.x > WIDTH || pixel_position.y > HEIGHT || pixel_position.x < 0 || pixel_position.y < 0)
-			break;
-	}
-	return (collision_data);
 }
 
 void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
@@ -221,7 +118,7 @@ void	render_img_in_walls(t_data_global *data, int column, float wall_height, int
 	while(i < wall_height)
 	{
 		j = i * 32 / wall_height;
-		color =  *((int *)data->wall.ptr + ((j * data->wall.width) + (horizontal % 32)));
+		color = *((int *)data->wall.ptr + ((j * data->wall.width) + (horizontal % 32)));
 		pixel_to_img(data, (t_vector2){column,  (HEIGHT / 2) - ((wall_height / 2) - i)}, color);
 		i++;
 	}
@@ -242,14 +139,16 @@ void	render_3d(t_data_global *data, int column, t_collision collision_data, floa
 	if (size.y < 0)
 		size.y = 0;
 	if (collision_data.direction == 'N')
-		render_rectangle(data, coords, size, 0x0000ff);
+	{
+		render_img_in_walls(data, column, wall_height, collision_data.horizontal_position);
+		//render_rectangle(data, coords, size, 0x0000ff);
+	}
 	else if (collision_data.direction == 'S')
 		render_rectangle(data, coords, size, 0x00ff00);
 	else if (collision_data.direction == 'E')
 		render_rectangle(data, coords, size, 0xff0000);
 	else if (collision_data.direction == 'O')
 		render_rectangle(data, coords, size, 0xffff00);
-	//render_img_in_walls(data, column, wall_height, collision_data.horizontal_position);
 }
 
 void	render_camera(t_data_global *data, int color)

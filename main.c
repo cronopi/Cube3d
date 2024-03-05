@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/03/01 10:35:57 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/05 16:29:04 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,22 @@ void	print_map(char **map)
 
 void	set_up_texture_map(t_data_global *data)
 {
-	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "outfile.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall1.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	{
+		printf("error1\n");
+		exit (1);
+	}
+		if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall2.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	{
+		printf("error1\n");
+		exit (1);
+	}
+	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall3.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	{
+		printf("error1\n");
+		exit (1);
+	}
+	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall4.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
@@ -57,7 +72,6 @@ void	set_up_texture_map(t_data_global *data)
 	data->wall.bpp /= 8;
 	data->wall.width = data->wall.stride / data->wall.bpp;
 	data->wall.height = data->wall.stride / data->wall.bpp;
-	printf("hola\n");
 }
 
 int	main(int argc, char **argv)
