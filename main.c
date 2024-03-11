@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/03/05 16:29:04 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/06 11:02:06 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,34 +44,41 @@ void	print_map(char **map)
 
 void	set_up_texture_map(t_data_global *data)
 {
-	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall1.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	int	i;
+
+	i = 0;
+	if ((data->wall[0].img = mlx_xpm_file_to_image(data->mlx, "wall1.xpm",&(data->wall[0].width), &(data->wall[0].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-		if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall2.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+		if ((data->wall[1].img = mlx_xpm_file_to_image(data->mlx, "wall2.xpm",&(data->wall[1].width), &(data->wall[1].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall3.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	if ((data->wall[2].img = mlx_xpm_file_to_image(data->mlx, "wall3.xpm",&(data->wall[2].width), &(data->wall[2].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-	if ((data->wall.img = mlx_xpm_file_to_image(data->mlx, "wall4.xpm",&(data->wall.width), &(data->wall.height))) == NULL)
+	if ((data->wall[3].img = mlx_xpm_file_to_image(data->mlx, "wall4.xpm",&(data->wall[3].width), &(data->wall[3].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-	if ((data->wall.ptr = mlx_get_data_addr(data->wall.img, &data->wall.bpp, &data->wall.stride, &data->wall.endian)) == NULL)
+	while (i < 4)
 	{
-		printf("error2\n");
-		exit (1);
+		if ((data->wall[i].ptr = mlx_get_data_addr(data->wall[i].img, &data->wall[i].bpp, &data->wall[i].stride, &data->wall[i].endian)) == NULL)
+		{
+			printf("error2\n");
+			exit (1);
+		}
+		data->wall[i].bpp /= 8;
+		data->wall[i].width = data->wall[i].stride / data->wall[i].bpp;
+		data->wall[i].height = data->wall[i].stride / data->wall[i].bpp;
+		i++;
 	}
-	data->wall.bpp /= 8;
-	data->wall.width = data->wall.stride / data->wall.bpp;
-	data->wall.height = data->wall.stride / data->wall.bpp;
 }
 
 int	main(int argc, char **argv)

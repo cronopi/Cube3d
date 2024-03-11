@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/05 16:59:08 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/06 11:12:39 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ float	get_angle_3d(t_fvector2 vector1, t_fvector2 vector2)
 
 float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 player_direction, int vertical_height)
 {
-	double angle;
+	double	angle;
 	double	corrected_distance;
 	double	wall_height;
 	angle = get_angle_3d(ray_direction, player_direction);
@@ -108,18 +108,20 @@ float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 play
 	return (wall_height * 1450);
 }
 
-void	render_img_in_walls(t_data_global *data, int column, float wall_height, int horizontal)
+void	render_img_in_walls(t_data_global *data, int column, float wall_height, t_collision collision_data)
 {
 	int color;
 	int i;
 	int j;
 
+
 	i = 0;
-	while(i < wall_height)
+	while(i < (HEIGHT * 2)  && i < wall_height)
 	{
 		j = i * 32 / wall_height;
-		color = *((int *)data->wall.ptr + ((j * data->wall.width) + (horizontal % 32)));
-		pixel_to_img(data, (t_vector2){column,  (HEIGHT / 2) - ((wall_height / 2) - i)}, color);
+			color = *((int *)data->wall[collision_data.texture].ptr + ((j * data->wall[collision_data.texture].width) + (collision_data.horizontal_position % 32)));
+			if ((HEIGHT / 2) - ((wall_height / 2) - i) >= 0 && (HEIGHT / 2) - (wall_height / 2) <= HEIGHT)
+				pixel_to_img(data, (t_vector2){column, (HEIGHT / 2) - ((wall_height / 2) - i)}, color);
 		i++;
 	}
 }
@@ -130,25 +132,21 @@ void	render_3d(t_data_global *data, int column, t_collision collision_data, floa
 
 	(void)collision_data;
 	(void)coords;
-	if (wall_height >= HEIGHT)
-		wall_height = HEIGHT;
 	coords.y = (HEIGHT / 2) - (wall_height / 2);
 	coords.x = column;
 	size.x = 1;
 	size.y = wall_height;
 	if (size.y < 0)
 		size.y = 0;
-	if (collision_data.direction == 'N')
-	{
-		render_img_in_walls(data, column, wall_height, collision_data.horizontal_position);
-		//render_rectangle(data, coords, size, 0x0000ff);
-	}
+	render_img_in_walls(data, column, wall_height, collision_data);
+/* 	if (collision_data.direction == 'N')
+		render_img_in_walls(data, column, wall_height, collision_data);
 	else if (collision_data.direction == 'S')
-		render_rectangle(data, coords, size, 0x00ff00);
+		render_img_in_walls(data, column, wall_height, collision_data);
 	else if (collision_data.direction == 'E')
-		render_rectangle(data, coords, size, 0xff0000);
+		render_img_in_walls(data, column, wall_height, collision_data);
 	else if (collision_data.direction == 'O')
-		render_rectangle(data, coords, size, 0xffff00);
+		render_img_in_walls(data, column, wall_height, collision_data); */
 }
 
 void	render_camera(t_data_global *data, int color)
@@ -159,6 +157,7 @@ void	render_camera(t_data_global *data, int color)
 	float	wall_height;
 
 	(void)lengh_ray;
+	(void)color;
 	data->character.camera_angle = 60;
 	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
 	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
@@ -171,7 +170,7 @@ void	render_camera(t_data_global *data, int color)
 		collision_data = ray_collision(data, tmp_ray);
 		wall_height = get_wall_height(collision_data.lengh_ray, tmp_ray.direction, data->character.direction, HEIGHT);
 		render_3d(data, i, collision_data, wall_height);
-		render_ray(data, tmp_ray, color, collision_data.lengh_ray);
+		//render_ray(data, tmp_ray, color, collision_data.lengh_ray);
 		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
 		i++;
 	}
@@ -232,11 +231,11 @@ int	render(t_data_global *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 
 	render_background(data);
-	render_walls(data);
-	render_character(*data);
+	//render_walls(data);
+	//render_character(*data);
 	render_camera(data, 0x894131ff);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	mlx_put_image_to_window(data->mlx, data->win, data->wall.img, 1, 1);
+	//mlx_put_image_to_window(data->mlx, data->win, data->wall[0].img, 1, 1);
 	mlx_destroy_image(data->mlx, data->img);
 	return (0);
 }

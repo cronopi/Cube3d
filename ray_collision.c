@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:10:34 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/05 15:27:43 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/06 11:13:49 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 	collision_data.lengh_ray = 0;
 	pixel_position.x = ray.origin.x;
 	pixel_position.y = ray.origin.y;
-
 	while(1)
 	{
 		if (data->map[(int)(pixel_position.y / 32)][(int)(pixel_position.x / 32)] == '1')
@@ -30,9 +29,9 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 				collision_data.lengh_ray = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
 				collision_data.horizontal_position = ((int)pixel_position.y % 32);
 				if (ray.direction.x <= 0)
-					collision_data.direction = 'O';
+					collision_data.texture = 0;
 				else
-					collision_data.direction = 'E';
+					collision_data.texture = 1;
 				return (collision_data);
 			}
 			else
@@ -40,13 +39,12 @@ t_collision ray_collision(t_data_global *data, t_ray ray)
 				collision_data.horizontal_position = ((int)pixel_position.x % 32);
 				collision_data.lengh_ray = pow((pixel_position.x - (ray.origin.x)), 2) + pow(pixel_position.y - (ray.origin.y), 2);
 				if (ray.direction.y <= 0)
-					collision_data.direction = 'N';
+					collision_data.texture = 2;
 				else
-					collision_data.direction = 'S';
+					collision_data.texture = 3;
 				return (collision_data);
 			}
 		}
-
 		if (collision_data.lengh_ray > (HEIGHT + WIDTH))
 			break;
 		pixel_position.x = pixel_position.x + ray.direction.x / 2.5;

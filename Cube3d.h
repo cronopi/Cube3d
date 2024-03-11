@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/04 11:11:56 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/06 11:08:15 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_collision
 	float	lengh_ray;
 	int		horizontal_position;
 	char	direction;
+	int		texture;
 
 }				t_collision;
 
@@ -77,7 +78,7 @@ typedef struct s_img
 typedef struct s_data_global
 {
 	t_vector2		map_size;
-	t_img			wall;
+	t_img			wall[4];
 	void			*img;
 	void			*mlx;
 	void			*win;
