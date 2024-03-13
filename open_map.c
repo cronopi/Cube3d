@@ -6,11 +6,12 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/08 11:20:03 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:10:09 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
+
 void	parser_floor_celling(char **map, int k, int j)
 {
 	int	l;
@@ -71,8 +72,6 @@ void	texture_and_color(char **map)
 				texture[2] = ft_strdup(map[j]);
 			else if (map[j][i] == 'E' && map[j][i + 1] == 'A')
 				texture[3] = ft_strdup(map[j]);
-
-
 			else if (map[j][i] == 'F' && map[j][i + 1] == ' ' && (map[j][i + 2] >= '0' && map[j][i + 2] <= '9' ))
 			{
 				k = i + 2;
@@ -102,6 +101,7 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 	int	i;
 	int index;
 	char **map;
+	char **map2;
 	int fd;
 
 	i = 0;
@@ -124,7 +124,53 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 		map[i] = get_next_line(fd);
 		i++;
 	}
+	i = 0;
+	index = 0;
+	int count = 0;
+	while (map[index] != NULL)
+	{
+		while (map[index][i] != '\0')
+		{
+			if (map[index][i] == '1')
+				count++;
+
+			i++;
+			if (map[index][count + 1] == '\0' && map[index][1] != '\0')
+			{
+				printf("entrada\n");
+				while (map[index] != NULL)
+				{
+					printf("%s", map[index]);
+					index++;
+				}
+				printf("salida\n");
+				exit(1);
+			}
+		}
+		count = 0;
+		i = 0;
+		index++;
+	}
+
+	i = 0;
+	index = 0;
+	count = 0;
+	map2 = malloc (sizeof(char *) * (6 + 1));
+	map[6] = NULL;
+	while (map[index] != NULL)
+	{
+		printf("AAAAAAAAAAAAAAAAAAAAA\n %s", map[index]);
+		map[index] = ft_strdup(map2[index]);
+		index++;
+	}
+	index = 0;
+	while(map[index] != NULL)
+	{
+		printf("%s", map[index]);
+		index++;
+	}
 	data->map_size.y = i;
-	texture_and_color(map);
+	//texture_and_color(map);
+	exit(1);
 	return (map);
 }
