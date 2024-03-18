@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/13 17:10:09 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/18 12:53:41 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,37 +124,28 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 		map[i] = get_next_line(fd);
 		i++;
 	}
+	int count = 0;
 	i = 0;
 	index = 0;
-	int count = 0;
 	while (map[index] != NULL)
 	{
 		while (map[index][i] != '\0')
 		{
-			if (map[index][i] == '1')
-				count++;
-
-			i++;
-			if (map[index][count + 1] == '\0' && map[index][1] != '\0')
+			if (map[index][0] == '1')
 			{
-				printf("entrada\n");
-				while (map[index] != NULL)
-				{
-					printf("%s", map[index]);
-					index++;
-				}
-				printf("salida\n");
-				exit(1);
+				index++;
+				count++;
 			}
+			i++;
+
 		}
-		count = 0;
+
+
 		i = 0;
 		index++;
 	}
-
 	i = 0;
 	index = 0;
-	count = 0;
 	map2 = malloc (sizeof(char *) * (6 + 1));
 	map[6] = NULL;
 	while (map[index] != NULL)
