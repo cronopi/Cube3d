@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/06 11:08:15 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/19 11:48:40 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <math.h>
 # include <stdlib.h>
 # include "libft/libft.h"
-# include "mlx/mlx.h"
-//# include <mlx.h>
+//# include "mlx/mlx.h"
+# include <mlx.h>
 
 # define WIDTH 640
 # define HEIGHT 600
@@ -77,6 +77,8 @@ typedef struct s_img
 
 typedef struct s_data_global
 {
+	char			**colors;
+	char			**texture;
 	t_vector2		map_size;
 	t_img			wall[4];
 	void			*img;

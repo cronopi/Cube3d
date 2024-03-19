@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/03/06 11:02:06 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:46:04 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	set_up_texture_map(t_data_global *data)
 	int	i;
 
 	i = 0;
-	if ((data->wall[0].img = mlx_xpm_file_to_image(data->mlx, "wall1.xpm",&(data->wall[0].width), &(data->wall[0].height))) == NULL)
+	if ((data->wall[0].img = mlx_xpm_file_to_image(data->mlx, "./wall1.xpm",&(data->wall[0].width), &(data->wall[0].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);

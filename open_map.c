@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/18 12:53:41 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:54:27 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,56 +44,92 @@ void	parser_floor_celling(char **map, int k, int j)
 		}
 	}
 }
-void	texture_and_color(char **map)
+
+void	texture_and_color(char **map, t_data_global *data)
 {
 	int	i;
 	int	j;
-	int k;
-	char **texture;
-	char **colors;
-
+	char **spliteao;
+//	int k;
 
 	i = 0;
 	j = 0;
-	texture = malloc(sizeof(char *) * 5);
-	texture[4] = NULL;
-	colors = malloc(sizeof(char *) * 3);
-	colors[2] = NULL;
-
+	data->texture = malloc(sizeof(char *) * 5);
+	data->texture[4] = NULL;
+	data->colors = malloc(sizeof(char *) * 3);
+	data->colors[2] = NULL;
 	while(map[j] != NULL)
 	{
 		while(map[j][i] != '\0')
 		{
-			if (map[j][i] == 'S' && map[j][i + 1] == 'O')
-				texture[0] = ft_strdup(map[j]);
-			else if (map[j][i] == 'N' && map[j][i + 1] == 'O')
-				texture[1] = ft_strdup(map[j]);
+			if (map[j][i] == 'N' && map[j][i + 1] == 'O')
+			{
+				//hacer el split si hay . en la primera posicion posterior al espacio
+				spliteao = ft_split(map[j], ' ');
+				printf("hola %s\n", spliteao[1]);
+				data->texture[0] = spliteao[1];
+			}
+			else if (map[j][i] == 'S' && map[j][i + 1] == 'O')
+			{
+				spliteao = ft_split(map[j], ' ');
+				printf("hola %s\n", spliteao[1]);
+				data->texture[1] = spliteao[1];
+			}
 			else if (map[j][i] == 'W' && map[j][i + 1] == 'E')
-				texture[2] = ft_strdup(map[j]);
+			{
+				spliteao = ft_split(map[j], ' ');
+				printf("hola %s\n", spliteao[1]);
+				data->texture[2] = spliteao[1];
+			}
 			else if (map[j][i] == 'E' && map[j][i + 1] == 'A')
-				texture[3] = ft_strdup(map[j]);
-			else if (map[j][i] == 'F' && map[j][i + 1] == ' ' && (map[j][i + 2] >= '0' && map[j][i + 2] <= '9' ))
 			{
-				k = i + 2;
-				parser_floor_celling(map, k, j);
-				colors[0] = ft_strdup(map[j]);
+				spliteao = ft_split(map[j], ' ');
+				printf("hola %s\n", spliteao[1]);
+				data->texture[3] = spliteao[1];
 			}
-			else if (map[j][i] == 'C' && map[j][i + 1] == ' ' && (map[j][i + 2] >= '0' && map[j][i + 2] <= '9' ))
+/* 			else if (map[j][i] == 'F' && map[j][i + 1] == ' ')
 			{
-				k = i + 2;
-				parser_floor_celling(map, k, j);
-				colors[1] = ft_strdup(map[j]);
+				spliteao = ft_split(map[j], ' ');
+				//k = i + 2;
+				//parser_floor_celling(map, k, j);
+				printf("hola %s\n", spliteao[1]);
+				data->colors[0] = spliteao[1];
 			}
-
-
-/* 			if (map[j][i] == ' ')
-				i++;
-			else */
-				i++;
+			else if (map[j][i] == 'C' && map[j][i + 1] == ' ')
+			{
+				spliteao = ft_split(map[j], ' ');
+				printf("hola %s\n", spliteao[1]);
+				//k = i + 2;
+				//parser_floor_celling(map, k, j);
+				data->colors[1] = spliteao[1];
+			} */
+			i++;
 		}
 		j++;
 		i = 0;
 	}
+	printf("salgo\n");
+}
+
+int	parser_map(char **map)
+{
+	int i;
+	int index;
+
+	i = 0;
+	index = 0;
+	while (map[index] != NULL)
+	{
+		while(map[index][i] != '\0')
+		{
+			if (map[index][0] == '1')// habría que tener en cuenta los espacio también
+				return (index);
+			i++;
+		}
+		index++;
+		i = 0;
+	}
+	return (index);
 }
 
 char	**open_and_return_map(char *file_name, t_data_global *data)
@@ -101,16 +137,14 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 	int	i;
 	int index;
 	char **map;
-	char **map2;
+	char **real_map;
 	int fd;
 
 	i = 0;
 	index = 0;
-
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 		return (0);
-
 	while(get_next_line(fd) != NULL)
 		index++;
 	map = malloc(sizeof(char *) * (index + 1));
@@ -124,44 +158,25 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 		map[i] = get_next_line(fd);
 		i++;
 	}
+	index = parser_map(map);
+	i = i - index;
+	data->map_size.y = i + 1;
+	real_map = malloc(sizeof(char *) * (data->map_size.y));
+	real_map[data->map_size.y] = NULL;
 	int count = 0;
-	i = 0;
-	index = 0;
-	while (map[index] != NULL)
+	while(map[index])
 	{
-		while (map[index][i] != '\0')
-		{
-			if (map[index][0] == '1')
-			{
-				index++;
-				count++;
-			}
-			i++;
-
-		}
-
-
-		i = 0;
+		real_map[count] = ft_strdup(map[index]);
 		index++;
+		count++;
 	}
-	i = 0;
-	index = 0;
-	map2 = malloc (sizeof(char *) * (6 + 1));
-	map[6] = NULL;
-	while (map[index] != NULL)
+	/*
+	count = 0;
+	while (real_map[count] != NULL)
 	{
-		printf("AAAAAAAAAAAAAAAAAAAAA\n %s", map[index]);
-		map[index] = ft_strdup(map2[index]);
-		index++;
-	}
-	index = 0;
-	while(map[index] != NULL)
-	{
-		printf("%s", map[index]);
-		index++;
-	}
-	data->map_size.y = i;
-	//texture_and_color(map);
-	exit(1);
-	return (map);
+		printf("%s", real_map[count]);
+		count++;
+	} */
+	texture_and_color(map, data);
+	return (real_map);
 }

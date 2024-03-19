@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:10:58 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/01 10:31:54 by roberto          ###   ########.fr       */
+/*   Updated: 2024/03/19 10:47:15 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void look_sideways_keys(int key, t_data_global *data)
 {
 	(void)data;
-	//if (key == 123)
-	if (key == 97)
+	if (key == 123)
+	//if (key == 97)
 	{
 		data->character.direction = Rotate(data->character.direction, 5.0);
 	}
-	//else if (key == 124)
-	if (key == 100)
+	else if (key == 124)
+	//if (key == 100)
 	{
 		data->character.direction = Rotate(data->character.direction, -5.0);
 	}
@@ -31,30 +31,30 @@ void	movements_keys(int key, t_data_global *data) // moverse hacia alante en la 
 {
 	t_fvector2 tmp;
 
-	//if (key == 13)
-	if (key == 65362)
+	if (key == 13)
+	//if (key == 65362)
 	{
 		printf("w\n");
 		data->character.position.x = (data->character.direction.x * 0.1) + data->character.position.x;
 		data->character.position.y = (data->character.direction.y * 0.1)+ data->character.position.y;
 	}
-	//else if (key == 0)
-	else if (key == 65361)
+	else if (key == 0)
+	//else if (key == 65361)
 	{
 		printf("a\n");
 		tmp = Rotate(data->character.direction, -90);
 		data->character.position.x = (tmp.x * 0.1) + data->character.position.x;
 		data->character.position.y = (tmp.y * 0.1)+ data->character.position.y;
 	}
-	//else if (key == 1)
-	if (key == 65364)
+	else if (key == 1)
+	//if (key == 65364)
 	{
 		printf("s\n");
 		data->character.position.x = -(data->character.direction.x * 0.1) + data->character.position.x;
 		data->character.position.y = -(data->character.direction.y * 0.1)+ data->character.position.y;
 	}
-	//else if (key == 2)
-	else if (key == 65363)
+	else if (key == 2)
+	//else if (key == 65363)
 	{
 		printf("d\n");
 		tmp = Rotate(data->character.direction, 90);
@@ -68,8 +68,8 @@ int	keys(int key, t_data_global *data)
 {
 	movements_keys(key, data);
 	look_sideways_keys(key, data);
-	//if (key == 53)
-	if (key == 65307)
+	if (key == 53)
+	//if (key == 65307)
 	{
 		printf("Bye !\n");
 		close_window(data);
