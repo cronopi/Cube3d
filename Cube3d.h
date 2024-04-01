@@ -6,7 +6,7 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:08:20 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/19 11:48:40 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/01 12:50:39 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ typedef struct s_img
 
 typedef struct s_data_global
 {
-	char			**colors;
+	char			**colors_celing;
+	char			**colors_floor;
 	char			**texture;
 	t_vector2		map_size;
 	t_img			wall[4];

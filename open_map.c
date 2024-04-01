@@ -6,43 +6,37 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/19 13:54:27 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/01 15:20:35 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
 
-void	parser_floor_celling(char **map, int k, int j)
+int	parser_floor_celling(char **rgb)
 {
-	int	l;
-	int	coma;
+	int i;
+	int j;
 
-	l = 0;
-	coma = 0;
-	while (map[j][k])
+	i = 0;
+	j = 0;
+	while (rgb[j] != NULL)
 	{
-		l = 0;
-		while (map[j][k] >= '0' && map[j][k] >= '9')
+		printf("hola %s\n", rgb[j]);
+		while (rgb[j][i] != '\0')
 		{
-			if (l > 4)
+			if ( rgb[j][i] >= '0' && rgb[j][i] <= '9' && i < 3)
+				i++;
+			else
 			{
-				printf("tamal");
+				printf("hay un error aqui\n");
 				exit(1);
+				//return (1);
 			}
-			k++;
-			l++;
 		}
-		if ((map[j][k] == ',') && (map[j][k - 1] >= '0' && map[j][k - 1] <= '9') && (map[j][k + 1] >= '0' && map[j][k + 1] <= '9'))
-		{
-			if (coma > 2)
-			{
-				printf("ta mal coma");
-				exit(1);
-			}
-			coma++;
-			k++;
-		}
+		j++;
+		i = 0;
 	}
+	return (0);
 }
 
 void	texture_and_color(char **map, t_data_global *data)
@@ -50,14 +44,15 @@ void	texture_and_color(char **map, t_data_global *data)
 	int	i;
 	int	j;
 	char **spliteao;
-//	int k;
 
 	i = 0;
 	j = 0;
 	data->texture = malloc(sizeof(char *) * 5);
 	data->texture[4] = NULL;
-	data->colors = malloc(sizeof(char *) * 3);
-	data->colors[2] = NULL;
+	data->colors_celing = malloc(sizeof(char *) * 4);
+	data->colors_celing[3] = NULL;
+	data->colors_floor = malloc(sizeof(char *) * 4);
+	data->colors_floor[3] = NULL;
 	while(map[j] != NULL)
 	{
 		while(map[j][i] != '\0')
@@ -67,42 +62,43 @@ void	texture_and_color(char **map, t_data_global *data)
 				//hacer el split si hay . en la primera posicion posterior al espacio
 				spliteao = ft_split(map[j], ' ');
 				printf("hola %s\n", spliteao[1]);
+				spliteao[1] = ft_strtrim(spliteao[1], "\n");
 				data->texture[0] = spliteao[1];
 			}
 			else if (map[j][i] == 'S' && map[j][i + 1] == 'O')
 			{
 				spliteao = ft_split(map[j], ' ');
 				printf("hola %s\n", spliteao[1]);
+				spliteao[1] = ft_strtrim(spliteao[1], "\n");
 				data->texture[1] = spliteao[1];
 			}
 			else if (map[j][i] == 'W' && map[j][i + 1] == 'E')
 			{
 				spliteao = ft_split(map[j], ' ');
 				printf("hola %s\n", spliteao[1]);
+				spliteao[1] = ft_strtrim(spliteao[1], "\n");
 				data->texture[2] = spliteao[1];
 			}
 			else if (map[j][i] == 'E' && map[j][i + 1] == 'A')
 			{
 				spliteao = ft_split(map[j], ' ');
 				printf("hola %s\n", spliteao[1]);
+				spliteao[1] = ft_strtrim(spliteao[1], "\n");
 				data->texture[3] = spliteao[1];
 			}
-/* 			else if (map[j][i] == 'F' && map[j][i + 1] == ' ')
+			else if (map[j][i] == 'F' && map[j][i + 1] == ' ')
 			{
-				spliteao = ft_split(map[j], ' ');
-				//k = i + 2;
-				//parser_floor_celling(map, k, j);
-				printf("hola %s\n", spliteao[1]);
-				data->colors[0] = spliteao[1];
+				spliteao[0] = ft_strtrim(map[j], "F \n");
+				data->colors_floor = ft_split(spliteao[0], ',');
+				parser_floor_celling(data->colors_floor);
 			}
 			else if (map[j][i] == 'C' && map[j][i + 1] == ' ')
 			{
-				spliteao = ft_split(map[j], ' ');
-				printf("hola %s\n", spliteao[1]);
-				//k = i + 2;
-				//parser_floor_celling(map, k, j);
-				data->colors[1] = spliteao[1];
-			} */
+				spliteao[0] = ft_strtrim(map[j], "C \n");
+				data->colors_celing = ft_split(spliteao[0], ',');
+
+				parser_floor_celling(data->colors_celing);
+			}
 			i++;
 		}
 		j++;
@@ -122,7 +118,7 @@ int	parser_map(char **map)
 	{
 		while(map[index][i] != '\0')
 		{
-			if (map[index][0] == '1')// habría que tener en cuenta los espacio también
+			if (map[index][0] == '1' || map[index][0] == ' ')// habría que tener en cuenta los espacio también
 				return (index);
 			i++;
 		}

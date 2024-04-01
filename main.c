@@ -6,7 +6,7 @@
 /*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/03/19 13:46:04 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/01 11:35:23 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,22 @@ void	set_up_texture_map(t_data_global *data)
 	int	i;
 
 	i = 0;
-	if ((data->wall[0].img = mlx_xpm_file_to_image(data->mlx, "./wall1.xpm",&(data->wall[0].width), &(data->wall[0].height))) == NULL)
+	if ((data->wall[0].img = mlx_xpm_file_to_image(data->mlx, data->texture[0], &(data->wall[0].width), &(data->wall[0].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-		if ((data->wall[1].img = mlx_xpm_file_to_image(data->mlx, "wall2.xpm",&(data->wall[1].width), &(data->wall[1].height))) == NULL)
+		if ((data->wall[1].img = mlx_xpm_file_to_image(data->mlx, data->texture[1], &(data->wall[1].width), &(data->wall[1].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-	if ((data->wall[2].img = mlx_xpm_file_to_image(data->mlx, "wall3.xpm",&(data->wall[2].width), &(data->wall[2].height))) == NULL)
+	if ((data->wall[2].img = mlx_xpm_file_to_image(data->mlx, data->texture[2], &(data->wall[2].width), &(data->wall[2].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
 	}
-	if ((data->wall[3].img = mlx_xpm_file_to_image(data->mlx, "wall4.xpm",&(data->wall[3].width), &(data->wall[3].height))) == NULL)
+	if ((data->wall[3].img = mlx_xpm_file_to_image(data->mlx, data->texture[3], &(data->wall[3].width), &(data->wall[3].height))) == NULL)
 	{
 		printf("error1\n");
 		exit (1);
