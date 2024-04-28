@@ -6,11 +6,27 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/06 11:12:39 by roberto          ###   ########.fr       */
+/*   Updated: 2024/04/08 10:32:37 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
+
+int	number_to_hex(char **number) // ver como simplificar en bucle
+{
+	int hex;
+	int r;
+	int g;
+	int b;
+
+	r = ft_atoi(number[0]);
+	g = ft_atoi(number[1]);
+	b = ft_atoi(number[2]);
+	hex = r;
+	hex = (hex << 8) + g;
+	hex = (hex << 8) + b;
+	return (hex);
+}
 
 void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 {
@@ -213,8 +229,12 @@ void	render_background(t_data_global *data)
 	t_vector2	coords;
 	t_vector2	size;
 
-	color_sky = 0x0000ffff;
-	color_floor = 0x8B4513ff;
+/* 	color_sky = 0x0000ffff;
+	color_floor = 0x8B4513ff; */
+
+	color_floor = number_to_hex(data->colors_floor);
+	color_sky = number_to_hex(data->colors_celing);
+
 	coords.x = 0;
 	coords.y = 0;
 	size.x = WIDTH;

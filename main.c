@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/04/01 11:35:23 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/22 10:45:32 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	close_window(t_data_global *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	close_program(data);
-	exit(1);
+	exit(0);
 	return (0);
 }
 void	leaks(void)
@@ -86,25 +86,30 @@ int	main(int argc, char **argv)
 	t_data_global	data;
 
 	if (check_argc(argc) == 0)
-		return (0);
+		return (1);
 	if (check_extension(argv) == 0)
-		return (0);
+		return (1);
 	data.map = open_and_return_map(argv[1], &data);
+	if (data.map == NULL)
+	{
+		printf("hay un error en la apertura del mapa\n");
+		return (1);
+	}
 	print_map(data.map);
 	data.character = initialize_character(data.map);
 	if (check_map_validation(&data) == 0)
 	{
 		printf("hay un error de validez en el mapa");
-		return (0);
+		return (1);
 	}
 	data.mlx = mlx_init();
 	if (!data.mlx)
-		return (0);
+		return (1);
 	data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "Cube3D");
 	if (data.win == NULL)
 	{
 		//free_double_pointer(&init);
-		return (0);
+		return (1);
 	}
 	data.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
 	set_up_texture_map(&data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_validation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:01:20 by rcastano          #+#    #+#             */
-/*   Updated: 2024/02/01 15:24:57 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:21:20 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_floors(t_data_global *data)
 	i = 0;
 	data->dup_map = duplicate_map(data);
 	floodfill(data->dup_map, data->character.position.x, data->character.position.y);
-	floodfill_duplicate(data->dup_map, data->character.position.x, data->character.position.y);
+	//floodfill_duplicate(data->dup_map, data->character.position.x, data->character.position.y);
 	printf("\nel floodfill duplicado\n");
 	while (data->dup_map[i] != NULL)
 	{
@@ -130,12 +130,24 @@ int	check_posible_characters(t_data_global *data)
 int	check_map_validation(t_data_global *data)
 {
 	if(check_posible_characters(data) != 1)
+	{
+		printf("erroghghghr\n");
 		return (0);
+	}
 	if (check_floors(data) != 1)
+	{
+		printf("error2\n");
 		return (0);
+	}
  	if (check_r_and_n(data) != 1)
+	{
+		printf("error3\n");
 		return (0);
+	}
 	if (check_character(data->map) != 1)
+	{
+		printf("error4\n");
 		return (0);
+	}
 	return (1);
 }

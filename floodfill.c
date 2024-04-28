@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   floodfill.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 10:12:24 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/24 12:38:40 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/18 11:05:13 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	check_walls_floodfill2(t_data_global *data)
 	while (data->dup_map[coords.y][coords.x] != '\0')
 	{
 		if (data->dup_map[coords.y][coords.x] == 'v')
+		{
+			printf("Error de algun tipo check_wall_floodfill2\n");
 			free_leaks(data);
+		}
 		coords.x++;
 	}
 }
@@ -43,24 +46,34 @@ void	check_walls_floodfill(t_data_global *data)
 
 	coords.x = 0;
 	coords.y = 0;
+	printf("dup: %s", data->dup_map[coords.y]);
 	while (data->dup_map[coords.y] != NULL)
 	{
 		if (data->dup_map[coords.y][coords.x] == 'v')
+			{
+			printf("Error de algun tipo check_wall_flood\n");
 			free_leaks(data);
+		}
 		coords.y++;
 	}
 	coords.y = coords.y - 1;
 	while (data->dup_map[coords.y][coords.x] != '\0')
 	{
 		if (data->dup_map[coords.y][coords.x] == 'v')
+		{
+			printf("Error de algun tipo ch\n");
 			free_leaks(data);
+		}
 		coords.x++;
 	}
 	coords.x = coords.x - 1;
 	while (coords.y >= 0)
 	{
 		if (data->dup_map[coords.y][coords.x] == 'v')
+		{
+			printf("Error de algun tipo check\n");
 			free_leaks(data);
+		}
 		coords.y--;
 	}
 	check_walls_floodfill2(data);

@@ -1,3 +1,11 @@
+NO ./wall1.xpm
+SO ./wall2.xpm
+WE ./wall3.xpm
+EA ./wall4.xpm
+
+F 139,69,19
+C 0,0,255
+
 11111
 101N1
 11001

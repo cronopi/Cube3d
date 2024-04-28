@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/04/01 15:20:35 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:59:27 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parser_floor_celling(char **rgb)
 		printf("hola %s\n", rgb[j]);
 		while (rgb[j][i] != '\0')
 		{
-			if ( rgb[j][i] >= '0' && rgb[j][i] <= '9' && i < 3)
+			if ( rgb[j][i] >= '0' && rgb[j][i] <= '9' && i < 3) // el numero no puede ser mayor a 255
 				i++;
 			else
 			{
@@ -118,7 +118,7 @@ int	parser_map(char **map)
 	{
 		while(map[index][i] != '\0')
 		{
-			if (map[index][0] == '1' || map[index][0] == ' ')// habría que tener en cuenta los espacio también
+			if (map[index][0] == '1' || map[index][0] == ' ')
 				return (index);
 			i++;
 		}
@@ -156,8 +156,10 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 	}
 	index = parser_map(map);
 	i = i - index;
-	data->map_size.y = i + 1;
-	real_map = malloc(sizeof(char *) * (data->map_size.y));
+	data->map_size.y = i;
+	real_map = malloc(sizeof(char *) * (data->map_size.y + 1));
+	if (!real_map)
+		return (0);
 	real_map[data->map_size.y] = NULL;
 	int count = 0;
 	while(map[index])
