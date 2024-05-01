@@ -1,7 +1,8 @@
 RM = rm -f
 
 CC = gcc
-FLAGS_MLX =-Lmlx -lmlx_Linux -Llibft -lft -lXext -lX11 -lm -lz #-g3 -fsanitize=address
+FLAGS_MLX = -Lmlx -lmlx -Llibft -lft -lX11 -lXext -lm -lz 
+#FLAGS_MLX =-Lmlx -Llibft -lft -lXext -lX11 -lm -lz -lmlx_Linux #-g3 -fsanitize=address
 #FLAGS_MLX = -lmlx -framework OpenGL -framework AppKit
 FLAGS = -Wall -Wextra -Werror -g
 

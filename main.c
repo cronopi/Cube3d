@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/04/22 10:45:32 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:03:49 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,9 @@ void	print_map(char **map)
 	}
 	printf("\nfin de impresion del mapa\n");
 }
-
+/*
+se encarga de cargar las imagenes de las paredes para luego imprimirlas por pantalla en el juego.
+*/
 void	set_up_texture_map(t_data_global *data)
 {
 	int	i;
@@ -80,7 +82,24 @@ void	set_up_texture_map(t_data_global *data)
 		i++;
 	}
 }
+/*
+llamamos a argumentos y las extensiones
 
+despues open_and_return_map devolverá el mapa
+inizialize_character inicializará el personaje
+
+check_map_validation valida el mapa y todo su contenido
+
+set_up_texture_map cargará las texturas de las paredes
+
+despues de setear la mlx básica entraremos en los hook y la primera funcion es render.
+Es basicamente el ejercicio entero, no lo entiendo ni yo.
+
+keys recoge las teclas que necesiitamos para movernos y la camara, cerrar la pantalla etc.
+
+
+
+*/
 int	main(int argc, char **argv)
 {
 	t_data_global	data;

@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ray_collision.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 11:10:34 by roberto           #+#    #+#             */
-/*   Updated: 2024/03/06 11:13:49 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:44:58 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
+/*
 
+
+*/
 t_collision ray_collision(t_data_global *data, t_ray ray)
 {
 	t_collision collision_data;

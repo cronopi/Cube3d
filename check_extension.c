@@ -3,22 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   check_extension.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 01:51:53 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/01 01:59:54 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 12:01:48 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
-
+/*
+	checkeamos quee el numero de argumentos sea dos
+*/
 int	check_argc(int argc)
 {
 	if (argc != 2)
 		return (0);
 	return (1);
 }
-
+/*
+	checkeamos el nombre de la extensión, que sea ".cub"
+*/
 int	check_extension(char **argv)
 {
 	int	i;

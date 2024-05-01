@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_character.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 13:30:10 by roberto           #+#    #+#             */
-/*   Updated: 2024/01/31 11:16:59 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 12:34:56 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
-
+/*
+la N S E W son las direcciones en la que el personaje empieza,
+es necesario recogerlas para que la cámara se inicialice en la direccion correcta
+*/
 t_character character_start_and_direction(char **map)
 {
 	int i;
@@ -51,7 +54,9 @@ t_character character_start_and_direction(char **map)
 	}
 	return (new_character);
 }
-
+/*
+	inicializamos el personaje, tanto su spawn como la direccion en la que  mira, el FOV lo haremos más tarde
+*/
 t_character	initialize_character(char **map)
 {
 	t_character new_character;

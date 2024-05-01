@@ -3,16 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/04/08 10:32:37 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 13:43:58 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
+/*
+***********************************************************************************
 
-int	number_to_hex(char **number) // ver como simplificar en bucle
+supongamos que:
+				00 00 00 00 00	+ 	g (25)
+				00 00 00 00 25  ( puesto que estamos en binario y solo podemos tener 1 y 0 habrá que hacerlo de forma correcta)
+				00 00 01 10 01  esto serían 25 en binario
+					  16 8   1  16 + 8 + 1 = 25
+
+
+*/
+int	number_to_hex(char **number)
 {
 	int hex;
 	int r;
@@ -27,7 +37,9 @@ int	number_to_hex(char **number) // ver como simplificar en bucle
 	hex = (hex << 8) + b;
 	return (hex);
 }
-
+/*
+	**************************************************************************
+*/
 void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 {
 	int pixel_position;
@@ -43,7 +55,10 @@ void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 	buffer[pixel_position + 1] = (color >> 8) & 0xFF;
 	buffer[pixel_position + 0] = (color) & 0xFF;
 }
-
+/*
+	nuestra funcion para crear rectangulos, o lo que es lo mismo,
+	paredes suelos y tdo aquello que vaya a tener una textura	
+*/
 void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int color)
 {
 	t_vector2	limit;
@@ -64,7 +79,9 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 		coords.y++;
 	}
 }
-
+/*
+	renderiza el rayo en el cono de visión del pov, por cada pixel que haya en la pantalla habrá un rayo
+*/
 void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
 {
 	t_fvector2 index;
@@ -82,7 +99,9 @@ void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
 		index.y = index.y + ray.direction.y;
 	}
 }
-
+/*
+	*************************************************************
+*/
 double	get_dot_vector(t_fvector2 vector1, t_fvector2 vector2)
 {
 	double dot;
@@ -91,6 +110,9 @@ double	get_dot_vector(t_fvector2 vector1, t_fvector2 vector2)
 	return(dot);
 }
 
+/*
+	**************************************************************
+*/
 double	get_magnitud(t_fvector2 vector)
 {
 	double magnitud;
@@ -99,7 +121,11 @@ double	get_magnitud(t_fvector2 vector)
 	magnitud = sqrt(magnitud);
 	return (magnitud);
 }
+/*
 
+****************************************************************
+
+*/
 float	get_angle_3d(t_fvector2 vector1, t_fvector2 vector2)
 {
 	float dot;
@@ -111,7 +137,9 @@ float	get_angle_3d(t_fvector2 vector1, t_fvector2 vector2)
 		return (0);
 	return (dot / magnitud_product);
 }
-
+/*
+	*******************************************************************
+*/
 float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 player_direction, int vertical_height)
 {
 	double	angle;
@@ -123,7 +151,9 @@ float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 play
 	wall_height = vertical_height / corrected_distance;
 	return (wall_height * 1450);
 }
-
+/*
+	*****************************************************************
+*/
 void	render_img_in_walls(t_data_global *data, int column, float wall_height, t_collision collision_data)
 {
 	int color;
@@ -141,6 +171,10 @@ void	render_img_in_walls(t_data_global *data, int column, float wall_height, t_c
 		i++;
 	}
 }
+
+/*
+	******************************************************************************************
+*/
 void	render_3d(t_data_global *data, int column, t_collision collision_data, float wall_height)
 {
 	t_vector2 coords;
@@ -221,7 +255,10 @@ void render_walls(t_data_global *data)
 		coords.y++;
 	}
 }
-
+/*
+con los colores en formato rgb llamo a la funcion number_to_hex que se encarga
+ de transformarla en hexadecimal para usarla en la mlx
+*/
 void	render_background(t_data_global *data)
 {
 	int			color_floor;
@@ -245,7 +282,9 @@ void	render_background(t_data_global *data)
 	size.y = (HEIGHT / 2);
 	render_rectangle(data, coords, size, color_floor);
 }
-
+/*
+	el main de los renders, solo lo utilizo para llamar al resto de funciones.
+*/
 int	render(t_data_global *data)
 {
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);

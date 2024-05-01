@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/04/18 10:59:27 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 12:27:12 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
-
+/*
+ parecido a la comprobaciones de .cub lo unico que es posible aqui es que despues de la F o la C solo habrá numeros, max 3 seguidos y un máximo de 2 comas
+*/
 int	parser_floor_celling(char **rgb)
 {
 	int i;
@@ -38,7 +40,15 @@ int	parser_floor_celling(char **rgb)
 	}
 	return (0);
 }
+/*
+	creamos las variables que se encargaarán de guardar los nombres de las paredes para luego llmalas al cargar las imagenes
+	ejemplo: ./wall1.xpm el ./ (no da problemas) 
 
+	la mecánica para guardar el nombre es la misma y creo que se entiende split y strim para lo que necesito no creo que haga falta explicarla, por desgracia esto tiene muchos leaks
+	
+	
+	para F y C floor and ceeling llamo a otra función
+*/
 void	texture_and_color(char **map, t_data_global *data)
 {
 	int	i;
@@ -106,7 +116,14 @@ void	texture_and_color(char **map, t_data_global *data)
 	}
 	printf("salgo\n");
 }
-
+/*
+identificamos dentro de map la parte que contiene el mapa del archivo, de ello se encagará 
+la funcion parser, que devolverá la primera posicion del mapa
+11111
+101N1
+11001
+11111
+*/
 int	parser_map(char **map)
 {
 	int i;
@@ -127,7 +144,27 @@ int	parser_map(char **map)
 	}
 	return (index);
 }
+/*
+esta funcion llama a otraas funciones como parser o texture color, pero lo primero que hago
+ es recoger todo el archivo en un doble puntero map para recorrerlo
 
+ej NO ./wall1.xpm
+SO ./wall2.xpm
+WE ./wall3.xpm
+EA ./wall4.xpm
+
+F 139,69,19
+C 0,0,255
+
+11111
+101N1
+11001
+11111
+
+llamamos a parsrr map
+
+a partir de ahí creamos real map y guardaremos el mapa sin paredes suelo y tcho. que de eso se encargará la funcion texture_and_color
+*/
 char	**open_and_return_map(char *file_name, t_data_global *data)
 {
 	int	i;

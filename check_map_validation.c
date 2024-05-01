@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   check_map_validation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 13:01:20 by rcastano          #+#    #+#             */
-/*   Updated: 2024/04/18 11:21:20 by roberto          ###   ########.fr       */
+/*   Updated: 2024/05/01 12:50:06 by rcastano         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
-
+/*
+llamo a las funciones de floodfill, no voy a entrar mucho en detalle porque las tratamos en el so_long que
+viene a ser lo mismo, la unica diferencia es que el mapa no tiene que ser cuadrado y puede tener espacios.
+*/
 int	check_floors(t_data_global *data)
 {
 	int			i;
@@ -30,7 +33,9 @@ int	check_floors(t_data_global *data)
 	check_walls_floodfill(data);
 	return (1);
 }
-
+/*
+compruebo que haya un personaje y nucna más de 1
+*/
 int	check_character(char **map)
 {
 	int character;
@@ -66,7 +71,11 @@ int	count_lines(t_data_global *data)
 		j++;
 	return (j);
 }
-
+/*
+igual que el so_long que el mapa era valido si la ultima linea no tenia salto de linea
+he hecho lo mismo. Tuve en cuenta tambien por si acaso el retorno de carro /r por si acaso
+y lo dejé porque estaba más correcto así.
+*/
 int	check_r_and_n(t_data_global *data)
 {
 	int		i;
@@ -99,7 +108,9 @@ int	check_r_and_n(t_data_global *data)
 	}
 	return(1);
 }
-
+/*
+	se encarga de comprobar si hay personaaje
+*/
 int	check_posible_characters(t_data_global *data)
 {
 	int	i;
@@ -125,7 +136,9 @@ int	check_posible_characters(t_data_global *data)
 	}
 	return(1);
 }
-
+/*
+si todas las validaciones son correctas devuelve 1 y continuamos con el programa
+*/
 
 int	check_map_validation(t_data_global *data)
 {
