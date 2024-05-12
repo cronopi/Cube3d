@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:10:58 by roberto           #+#    #+#             */
-/*   Updated: 2024/05/01 13:03:14 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/05/03 10:35:01 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	movements_keys(int key, t_data_global *data) // moverse hacia alante en la 
 	//else if (key == 0)
 	else if (key == 65361)
 	{
-		printf("a\n");
+		printf("izquieda\n");
 		tmp = Rotate(data->character.direction, -90);
 		data->character.position.x = (tmp.x * 0.1) + data->character.position.x;
 		data->character.position.y = (tmp.y * 0.1)+ data->character.position.y;

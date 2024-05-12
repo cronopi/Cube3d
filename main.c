@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 11:20:26 by rcastano          #+#    #+#             */
-/*   Updated: 2024/05/01 13:03:49 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/05/10 10:33:06 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ void	print_map(char **map)
 }
 /*
 se encarga de cargar las imagenes de las paredes para luego imprimirlas por pantalla en el juego.
+
+&(data->wall[0].width), &(data->wall[0].height) se rellena con la altura y anchura de la imagen que se abre
+
+data->wall[i].ptr es la direccion del primer pixel
+
+bpp = bits por pixel
+stride = tamaño de la imagen
+endian = si el orden de los datos va en direccion o en contra de la memoria
+
+el bucle
+
+get_data_adrr retorna el puntero al primer pixel, a parte de rellenar otros datos
+luego con los datos obtenidos en bpp width y height
+
+primero tenemos (8)bits y bpp lo queremos en (1)bytes porque estamos trabajando en bytes
+
+en el width y height calculamos el stride entre los bytes para saber el "tamaño real" de la imagen y tenerlo todo en bytes
 */
 void	set_up_texture_map(t_data_global *data)
 {
@@ -96,8 +113,6 @@ despues de setear la mlx básica entraremos en los hook y la primera funcion es 
 Es basicamente el ejercicio entero, no lo entiendo ni yo.
 
 keys recoge las teclas que necesiitamos para movernos y la camara, cerrar la pantalla etc.
-
-
 
 */
 int	main(int argc, char **argv)

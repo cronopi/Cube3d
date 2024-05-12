@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/05/01 13:43:58 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/05/08 11:29:28 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,7 @@
 /*
 ***********************************************************************************
 
-supongamos que:
-				00 00 00 00 00	+ 	g (25)
-				00 00 00 00 25  ( puesto que estamos en binario y solo podemos tener 1 y 0 habrá que hacerlo de forma correcta)
-				00 00 01 10 01  esto serían 25 en binario
-					  16 8   1  16 + 8 + 1 = 25
-
+00000000|0000001|0000010|00000100| int
 
 */
 int	number_to_hex(char **number)
@@ -57,7 +52,7 @@ void pixel_to_img(t_data_global *data, t_vector2 coords, int color)
 }
 /*
 	nuestra funcion para crear rectangulos, o lo que es lo mismo,
-	paredes suelos y tdo aquello que vaya a tener una textura	
+	paredes suelos y tdo aquello que vaya a tener una textura
 */
 void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int color)
 {
@@ -68,7 +63,7 @@ void render_rectangle(t_data_global *data, t_vector2 coords, t_vector2 size, int
 	limit.x = coords.x + size.x;
 	limit.y = coords.y + size.y;
 
-	while(coords.y < limit.y) //coords.y >= 0 && coords.y <= HEIGHT
+	while(coords.y < limit.y)
 	{
 		while (coords.x < limit.x)
 		{
@@ -153,22 +148,34 @@ float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 play
 }
 /*
 	*****************************************************************
+	estamos poniendo la imagen correspondiente en la pared
+	mientras que la pared sea menor que la altura de la ventana mantente en el bucle y que la posicion del pixel sea menor que la altura de la pared
+
+	wall_y corresponde la posicion de la pared que se multiplica por el tamaño de la imagen que vamos a introducir en la pared y eso dividido entre la altura de la pared
+	el numero que nos da hace una correlacion entre la posicion de la pared con la posicion de la imagen
+
+	color = el ptr es una sola dimension, tenemos que pasar la coordenada y a una dimension y se hace multiplicando la posicion en y por el ancho de la imagen y a eso le sumamos
+	la coordenado x que es la posicion horizontal
+
+	el if comprueba que no salga por arriba o por abajo de la ventana y si no sale pintas el pixel y sigues aumentando en y para hacerlo con la colunma entera
+	cuando sales del bucle volverás a entrar en la funcion de render img a hacer lo mismo pero con una posicion en x diferente o una mayor constantemente hasta completarlo
+
 */
 void	render_img_in_walls(t_data_global *data, int column, float wall_height, t_collision collision_data)
 {
 	int color;
-	int i;
-	int j;
+	int wall_y;
+	int img_y;
 
 
-	i = 0;
-	while(i < (HEIGHT * 2)  && i < wall_height)
+	wall_y = 0;
+	while(wall_y < (HEIGHT) && wall_y < wall_height)
 	{
-		j = i * 32 / wall_height;
-			color = *((int *)data->wall[collision_data.texture].ptr + ((j * data->wall[collision_data.texture].width) + (collision_data.horizontal_position % 32)));
-			if ((HEIGHT / 2) - ((wall_height / 2) - i) >= 0 && (HEIGHT / 2) - (wall_height / 2) <= HEIGHT)
-				pixel_to_img(data, (t_vector2){column, (HEIGHT / 2) - ((wall_height / 2) - i)}, color);
-		i++;
+		img_y = wall_y * 32 / wall_height;
+			color = *((int *)data->wall[collision_data.texture].ptr + ((img_y * data->wall[collision_data.texture].width) + (collision_data.horizontal_position % 32)));
+			if ((HEIGHT / 2) - ((wall_height / 2) - wall_y) >= 0 && ((HEIGHT / 2) - (wall_height / 2)) <= HEIGHT)
+				pixel_to_img(data, (t_vector2){column, (HEIGHT / 2) - ((wall_height / 2) - wall_y)}, color);
+		wall_y++;
 	}
 }
 
@@ -177,50 +184,32 @@ void	render_img_in_walls(t_data_global *data, int column, float wall_height, t_c
 */
 void	render_3d(t_data_global *data, int column, t_collision collision_data, float wall_height)
 {
-	t_vector2 coords;
 	t_vector2 size;
 
 	(void)collision_data;
-	(void)coords;
-	coords.y = (HEIGHT / 2) - (wall_height / 2);
-	coords.x = column;
 	size.x = 1;
 	size.y = wall_height;
 	if (size.y < 0)
 		size.y = 0;
 	render_img_in_walls(data, column, wall_height, collision_data);
-/* 	if (collision_data.direction == 'N')
-		render_img_in_walls(data, column, wall_height, collision_data);
-	else if (collision_data.direction == 'S')
-		render_img_in_walls(data, column, wall_height, collision_data);
-	else if (collision_data.direction == 'E')
-		render_img_in_walls(data, column, wall_height, collision_data);
-	else if (collision_data.direction == 'O')
-		render_img_in_walls(data, column, wall_height, collision_data); */
 }
 
-void	render_camera(t_data_global *data, int color)
+void	render_camera(t_data_global *data)
 {
 	t_collision collision_data;
 	t_ray tmp_ray;
-	float lengh_ray;
 	float	wall_height;
 
-	(void)lengh_ray;
-	(void)color;
 	data->character.camera_angle = 60;
 	tmp_ray.origin.x = (data->character.position.x * 32) + 16;
 	tmp_ray.origin.y = (data->character.position.y * 32) + 16;
-	tmp_ray.direction = data->character.direction;
-	tmp_ray.direction = Rotate(tmp_ray.direction, (-data->character.camera_angle/ 2));
-	//printf("hp %i\n", collision_data.horizontal_position);
+	tmp_ray.direction = Rotate(data->character.direction, (-data->character.camera_angle/ 2));
 	int i = 0;
  	while(i < WIDTH)
 	{
 		collision_data = ray_collision(data, tmp_ray);
 		wall_height = get_wall_height(collision_data.lengh_ray, tmp_ray.direction, data->character.direction, HEIGHT);
 		render_3d(data, i, collision_data, wall_height);
-		//render_ray(data, tmp_ray, color, collision_data.lengh_ray);
 		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
 		i++;
 	}
@@ -266,9 +255,6 @@ void	render_background(t_data_global *data)
 	t_vector2	coords;
 	t_vector2	size;
 
-/* 	color_sky = 0x0000ffff;
-	color_floor = 0x8B4513ff; */
-
 	color_floor = number_to_hex(data->colors_floor);
 	color_sky = number_to_hex(data->colors_celing);
 
@@ -279,7 +265,6 @@ void	render_background(t_data_global *data)
 	render_rectangle(data, coords, size, color_sky);
 
 	coords.y = (HEIGHT / 2);
-	size.y = (HEIGHT / 2);
 	render_rectangle(data, coords, size, color_floor);
 }
 /*
@@ -290,11 +275,8 @@ int	render(t_data_global *data)
 	data->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 
 	render_background(data);
-	//render_walls(data);
-	//render_character(*data);
-	render_camera(data, 0x894131ff);
+	render_camera(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-	//mlx_put_image_to_window(data->mlx, data->win, data->wall[0].img, 1, 1);
 	mlx_destroy_image(data->mlx, data->img);
 	return (0);
 }
