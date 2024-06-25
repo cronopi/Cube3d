@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/05/08 11:29:28 by roberto          ###   ########.fr       */
+/*   Updated: 2024/06/21 14:32:46 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 /*
 ***********************************************************************************
 
-00000000|0000001|0000010|00000100| int
+de número a hexadecimal
+cada numero del array entre comillas corresponde con un color ya sea r g b
+por como funcionan los bytes yo tengo la variable hex a la que quiero introducir
+los colores en sus respectivos bytes, para ello el color del rojo se debe pushear 16 bits
+a la izquierda y el color del verde 8 a la izquierda.
 
 */
 int	number_to_hex(char **number)
@@ -95,7 +99,12 @@ void render_ray(t_data_global *data, t_ray ray, int color, float lengh_ray)
 	}
 }
 /*
-	*************************************************************
+	Asumiendo que los vectores miden 1
+	obtiene la proyección de un vector sobre otro y sirve para obtener
+	la diferencia entre angulos de 2 vectores(no lo entiendo bien)
+	si es 1 están en la misma posicion si es 0 90 grados -1 180 grados
+
+	https://falstad.com/dotproduct/ enlace a una página para entenderlo mejor
 */
 double	get_dot_vector(t_fvector2 vector1, t_fvector2 vector2)
 {
@@ -106,7 +115,8 @@ double	get_dot_vector(t_fvector2 vector1, t_fvector2 vector2)
 }
 
 /*
-	**************************************************************
+	obtiene el tamaño de un vector con la formula de pitágoras
+	primero lo sumamos con la funcion existente, y luego raiz cuadrada
 */
 double	get_magnitud(t_fvector2 vector)
 {
@@ -117,9 +127,10 @@ double	get_magnitud(t_fvector2 vector)
 	return (magnitud);
 }
 /*
+dot y magnitud_product no se que hace hay muchas mates aquí
 
-****************************************************************
-
+retorna magicamente el angulo entre dos vectores pero no entiendo
+ bien como lo hace
 */
 float	get_angle_3d(t_fvector2 vector1, t_fvector2 vector2)
 {
@@ -133,13 +144,14 @@ float	get_angle_3d(t_fvector2 vector1, t_fvector2 vector2)
 	return (dot / magnitud_product);
 }
 /*
-	*******************************************************************
+	devuelve la altura de la pared
 */
 float	get_wall_height(float lengh_ray, t_fvector2 ray_direction, t_fvector2 player_direction, int vertical_height)
 {
 	double	angle;
 	double	corrected_distance;
 	double	wall_height;
+
 	angle = get_angle_3d(ray_direction, player_direction);
 	(void) angle;
 	corrected_distance = lengh_ray; //* cos(angle);
@@ -180,9 +192,9 @@ void	render_img_in_walls(t_data_global *data, int column, float wall_height, t_c
 }
 
 /*
-	******************************************************************************************
+	creo que no hace nada porque lo usaba anteriormente para comprobar ciertas cosas
 */
-void	render_3d(t_data_global *data, int column, t_collision collision_data, float wall_height)
+/* void	render_3d(t_data_global *data, int column, t_collision collision_data, float wall_height)
 {
 	t_vector2 size;
 
@@ -192,8 +204,18 @@ void	render_3d(t_data_global *data, int column, t_collision collision_data, floa
 	if (size.y < 0)
 		size.y = 0;
 	render_img_in_walls(data, column, wall_height, collision_data);
-}
+} */
+/*
+iinicaliza el "fov" de la camara a 60 grados
+inicializa el origen del rayo a la posicion central del personaje
 
+inicializa la direccion del rayo para que se corresponda con la mirada del personaje
+
+el bucle recorra cada coordenada en el eje x de la ventana
+recoge el collision_data que tiene la longitud a la que estamso de la pared, la textura correspondiente para imprimirla por pantalla
+
+
+*/
 void	render_camera(t_data_global *data)
 {
 	t_collision collision_data;
@@ -209,7 +231,8 @@ void	render_camera(t_data_global *data)
 	{
 		collision_data = ray_collision(data, tmp_ray);
 		wall_height = get_wall_height(collision_data.lengh_ray, tmp_ray.direction, data->character.direction, HEIGHT);
-		render_3d(data, i, collision_data, wall_height);
+		//render_3d(data, i, collision_data, wall_height);
+		render_img_in_walls(data, i, wall_height, collision_data);
 		tmp_ray.direction = Rotate(tmp_ray.direction, (data->character.camera_angle / WIDTH));
 		i++;
 	}
@@ -247,6 +270,9 @@ void render_walls(t_data_global *data)
 /*
 con los colores en formato rgb llamo a la funcion number_to_hex que se encarga
  de transformarla en hexadecimal para usarla en la mlx
+
+hacemos un rectangulo grande que corresponderá con el suelo y otro con el techo.
+
 */
 void	render_background(t_data_global *data)
 {
