@@ -6,7 +6,7 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 00:10:58 by roberto           #+#    #+#             */
-/*   Updated: 2024/05/03 10:35:01 by roberto          ###   ########.fr       */
+/*   Updated: 2024/07/15 11:36:39 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,32 +38,47 @@ void	movements_keys(int key, t_data_global *data) // moverse hacia alante en la 
 	//if (key == 13)
 	if (key == 65362)
 	{
-		printf("w\n");
-		data->character.position.x = (data->character.direction.x * 0.1) + data->character.position.x;
-		data->character.position.y = (data->character.direction.y * 0.1)+ data->character.position.y;
+		printf("char %c\n", data->map[(int)( (data->character.direction.x * 1) + data->character.position.x)][(int)( (data->character.direction.y * 1) + data->character.position.y)]);
+		printf("la x es %i la y es %i\n", (int)((data->character.direction.x * 1) + data->character.position.x), (int)((data->character.direction.y * 1) + data->character.position.y));
+		if (!(data->map[(int)((data->character.direction.x * 1) + data->character.position.x)]
+			[(int)((data->character.direction.y * 1) + data->character.position.y)] == '1'))
+		{
+			data->character.position.x = (data->character.direction.x * 0.1) + data->character.position.x;
+			data->character.position.y = (data->character.direction.y * 0.1) + data->character.position.y;
+		}
 	}
 	//else if (key == 0)
 	else if (key == 65361)
 	{
-		printf("izquieda\n");
+
 		tmp = Rotate(data->character.direction, -90);
-		data->character.position.x = (tmp.x * 0.1) + data->character.position.x;
-		data->character.position.y = (tmp.y * 0.1)+ data->character.position.y;
+		if (!(data->map[(int)((tmp.x * 0.3) + data->character.position.x)][(int)((tmp.y * 0.3)+ data->character.position.y)] == '1'))
+		{
+			printf("izquieda\n");
+			data->character.position.x = (tmp.x * 0.1) + data->character.position.x;
+			data->character.position.y = (tmp.y * 0.1)+ data->character.position.y;
+		}
 	}
 	//else if (key == 1)
 	if (key == 65364)
 	{
-		printf("s\n");
-		data->character.position.x = -(data->character.direction.x * 0.1) + data->character.position.x;
-		data->character.position.y = -(data->character.direction.y * 0.1)+ data->character.position.y;
+		if (!(data->map[(int)((tmp.x * 0.3) + data->character.position.x)][(int)((tmp.y * 0.3)+ data->character.position.y)] == '1'))
+		{
+			printf("s\n");
+			data->character.position.x = -(data->character.direction.x * 0.1) + data->character.position.x;
+			data->character.position.y = -(data->character.direction.y * 0.1)+ data->character.position.y;
+		}
 	}
 	//else if (key == 2)
 	else if (key == 65363)
 	{
-		printf("d\n");
 		tmp = Rotate(data->character.direction, 90);
-		data->character.position.x = (tmp.x * 0.1) + data->character.position.x;
-		data->character.position.y = (tmp.y * 0.1)+ data->character.position.y;
+		if (!(data->map[(int)((tmp.x * 0.3) + data->character.position.x)][(int)((tmp.y * 0.3)+ data->character.position.y)] == '1'))
+		{
+			printf("d\n");
+			data->character.position.x = (tmp.x * 0.1) + data->character.position.x;
+			data->character.position.y = (tmp.y * 0.1)+ data->character.position.y;
+		}
 	}
 }
 
