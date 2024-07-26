@@ -6,11 +6,12 @@
 /*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 13:53:25 by roberto           #+#    #+#             */
-/*   Updated: 2024/06/21 14:32:46 by roberto          ###   ########.fr       */
+/*   Updated: 2024/07/22 12:21:17 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cube3d.h"
+
 /*
 ***********************************************************************************
 
@@ -302,6 +303,12 @@ int	render(t_data_global *data)
 
 	render_background(data);
 	render_camera(data);
+/* 	render_walls(data);
+	render_character(*data);
+	render_rectangle(data, (t_vector2){(int)( 32 *((data->character.direction.x * 1) + data->character.position.x)),
+	(int)(32 *((data->character.direction.y * 1) + data->character.position.y))}, (t_vector2){4, 4}, 0x000000ff); */
+
+
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	mlx_destroy_image(data->mlx, data->img);
 	return (0);

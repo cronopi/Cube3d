@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rcastano <rcastano@student.42.fr>          +#+  +:+       +#+        */
+/*   By: roberto <roberto@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 13:33:14 by roberto           #+#    #+#             */
-/*   Updated: 2024/05/01 12:27:12 by rcastano         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:08:13 by roberto          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	parser_floor_celling(char **rgb)
 }
 /*
 	creamos las variables que se encargaarán de guardar los nombres de las paredes para luego llmalas al cargar las imagenes
-	ejemplo: ./wall1.xpm el ./ (no da problemas) 
+	ejemplo: ./wall1.xpm el ./ (no da problemas)
 
 	la mecánica para guardar el nombre es la misma y creo que se entiende split y strim para lo que necesito no creo que haga falta explicarla, por desgracia esto tiene muchos leaks
-	
-	
+
+
 	para F y C floor and ceeling llamo a otra función
 */
 void	texture_and_color(char **map, t_data_global *data)
@@ -117,7 +117,7 @@ void	texture_and_color(char **map, t_data_global *data)
 	printf("salgo\n");
 }
 /*
-identificamos dentro de map la parte que contiene el mapa del archivo, de ello se encagará 
+identificamos dentro de map la parte que contiene el mapa del archivo, de ello se encagará
 la funcion parser, que devolverá la primera posicion del mapa
 11111
 101N1
@@ -205,8 +205,7 @@ char	**open_and_return_map(char *file_name, t_data_global *data)
 		index++;
 		count++;
 	}
-	/*
-	count = 0;
+/* 	count = 0;
 	while (real_map[count] != NULL)
 	{
 		printf("%s", real_map[count]);
